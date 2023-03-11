@@ -1,0 +1,16 @@
+<mat-card style="max-width: 300px; overflow-y: auto;">
+    <mat-card-content> 
+        <mat-nav-list>
+            <a mat-list-item *ngFor="let option of options" (click)="check(option.value)">
+                <span class="btn-label" *ngIf="selected | contains:option.value">
+                    <i class="material-icons">check_box</i>
+                </span>
+                <span class="btn-label" *ngIf="!( selected | contains:option.value )">
+                    <i class="material-icons">check_box_outline_blank</i>
+                </span>
+                {{ option.name }} 
+            </a>
+        </mat-nav-list>
+    </mat-card-content>
+</mat-card>
+

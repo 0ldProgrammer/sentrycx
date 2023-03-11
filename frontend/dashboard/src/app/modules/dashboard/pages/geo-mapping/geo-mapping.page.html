@@ -1,0 +1,304 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <mat-sidenav-container>
+      <mat-sidenav [(opened)]="opened" position="end">
+        <dynamic-columns-drawer
+          data-title='
+            <span class="btn-label">
+              <i class="material-icons">view_column</i>
+            </span>
+            '
+          [data-options]="tableColumns"
+          [data-default]="selectedColumns"
+          [data-closeonclick]="false"
+          data-type="MULTIPLE"
+          class="pull-right"
+          (onChange)="onDynamicColumnChange($event)"
+        ></dynamic-columns-drawer>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-rose card-header-icon">
+                <!-- filter details -->
+                <div class="pull-left">
+                  <dropdown
+                    data-title='
+                    <span class="btn-label">
+                      <i class="material-icons">location_on</i>
+                    </span>
+                    '
+                    [data-options]="filterData"
+                    [data-default]=""
+                    [data-closeonclick]="false"
+                    data-type="SINGLE"
+                    selected-button="breakdown"
+                    (onChange)="onFilterChange($event)"
+                  ></dropdown>
+                </div>
+                <button
+                  style="
+                    cursor: default;
+                    background-color: #60b615;
+                    border-color: #60b615;
+                  "
+                  class="pre-wrap btn-sm btn btn-primary"
+                >
+                  Online
+                </button>
+                <button
+                  mat-raised-button
+                  class="btn btn-warning btn-sm btn-readonly"
+                  style="color: white !important; cursor: pointer"
+                >
+                  {{ active }}
+                </button>
+                <button
+                  style="cursor: default"
+                  class="pre-wrap btn-sm btn btn-dark"
+                >
+                  Offline
+                </button>
+                <button
+                  mat-raised-button
+                  class="btn btn-warning btn-sm btn-readonly"
+                  style="color: white !important; cursor: pointer"
+                >
+                  {{ paginate.total - active }}
+                </button>
+              </div>
+              <div class="card-body">
+                <button
+                  *ngIf="hasFiltered"
+                  mat-raised-button
+                  class="btn btn-warning pull-right btn-sm"
+                  matBadgeColor="accent"
+                  matBadge="!"
+                  data-toggle="modal"
+                  data-target="#connectedAgentsFilterModal"
+                >
+                  <i class="material-icons">search</i>
+                </button>
+
+                <button
+                  *ngIf="!hasFiltered"
+                  mat-raised-button
+                  class="btn btn-warning pull-right btn-sm"
+                  data-toggle="modal"
+                  data-target="#connectedAgentsFilterModal"
+                >
+                  <i class="material-icons">search</i>
+                </button>
+                <div class="table-responsive">
+                  <mat-progress-bar
+                    *ngIf="isLoading"
+                    mode="indeterminate"
+                  ></mat-progress-bar>
+                  <table class="table table-striped table-hover">
+                    <thead class="text-primary">
+                      <tr>
+                        <th>
+                          <sort-header-filter
+                            class="text-left"
+                            data-field="agent_name"
+                            data-name="Current User"
+                            [data-selected]="sortedField == 'agent_name' "
+                            [data-filters]="filterOptions['filters']"
+                            (onSort)="sortFlag($event)"
+                            (onSearch)="search($event)"
+                          ></sort-header-filter>
+                        </th>
+                        <ng-container *ngFor="let header of flagHeaders">
+                          <th *ngIf="selectedColumns | contains:header.field">
+                            <sort-header-filter
+                              [ngClass]="header.class"
+                              [data-field]="header.field"
+                              [data-name]="header.name"
+                              [data-selected]="sortedField == header.field"
+                              [data-filters]="filterOptions['filters']"
+                              (onSort)="sortFlag($event)"
+                              (onSearch)="search($event)"
+                            ></sort-header-filter>
+                          </th>
+                        </ng-container>
+                        <th>Status</th>
+                        <th>Loc - Current</th>
+                        <th>Loc - Week</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let agent of connectedAgents ">
+                        <td
+                          class="text-left"
+                          style="min-width: 105px; cursor: pointer"
+                        >
+                          <popover
+                            [data-text]="agent.agent_name | titlecase"
+                            [data-header]="'MTR Result : ' + agent.agent_name"
+                            [data-content]="agent.mtr_result"
+                            class="mtr-table"
+                          ></popover>
+                        </td>
+                        <td
+                          *ngIf="selectedColumns | contains:'host_name'"
+                          class="text-left"
+                        >
+                          {{ agent.host_name | default:'-'}}
+                        </td>
+                        <td
+                          *ngIf="selectedColumns | contains:'station_name'"
+                          class="text-left"
+                        >
+                          {{ agent.station_name | default:'-'}}
+                        </td>
+                        <td
+                          *ngIf="selectedColumns | contains:'workstation_type'"
+                          class="text-left"
+                        >
+                          {{ agent.week_workstation_type!=null?agent.week_workstation_type.toUpperCase():'' | default:'-'}}
+                        </td>
+                        <td *ngIf="selectedColumns | contains:'position'">
+                          {{ agent.job_profile | default:'-' }}
+                        </td>
+                        <td
+                          *ngIf="selectedColumns | contains:'location'"
+                          class="text-left"
+                        >
+                          {{ agent.location }}
+                        </td>
+                        <td
+                          *ngIf="selectedColumns | contains:'account'"
+                          class="text-left"
+                        >
+                          {{ agent.account }}
+                        </td>
+                        <td *ngIf="selectedColumns | contains:'is_active'">
+                          <i
+                            class="material-icons text-success"
+                            *ngIf="agent.is_active== true"
+                            text-success
+                            >cloud_done</i
+                          >
+                          <i
+                            class="material-icons text-dark"
+                            *ngIf="agent.is_active == false"
+                            text-danger
+                            >cloud_off</i
+                          >
+                        </td>
+                        <td *ngIf="agent.is_active== true"  matTooltip="{{
+                            (agent.neighbourhood==null?' ':agent.neighbourhood+', ')+(agent.loc_current==null?'':agent.loc_current+', '
+                            +agent.region+', '+agent.zip_code+' '+agent.country)}}" 
+                            matTooltipPosition="above" 
+                            matTooltipClass="tooltip-css" 
+                            >
+                            {{ agent.loc_current }}
+                          </td>
+                        <td *ngIf="agent.is_active== true" 
+                        matTooltip="{{(agent.week_neighbourhood==null?' ':agent.week_neighbourhood+', ')+(agent.loc_week==null?'':agent.loc_week+', '
+                        +agent.week_region+', '+agent.week_zip+' '+agent.week_country)}}" 
+                        matTooltipPosition="above" 
+                        matTooltipClass="tooltip-css" 
+                        >{{ agent.loc_week }}</td>
+
+                        <td *ngIf="agent.is_active== false">{{ agent.loc_current }}</td>
+                        <td *ngIf="agent.is_active== false">{{ agent.loc_week }}</td>
+                        <td class="td-actions text-right" >
+                          <a matTooltip="Extract Complete Address" 
+                              matTooltipPosition="before" 
+                              class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                              data-toggle="modal"
+                              (click)="getLocation(agent.latitude,agent.longitude, agent.week_lat, agent.week_long)"
+                              data-target="#extractAddressModal"
+                            >
+                                <i class="material-icons left">my_location</i>
+                            </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.row-->
+
+        <mat-paginator
+          (page)="updateData($event)"
+          [length]="paginate.total"
+          [pageSize]="paginate.perPage"
+          [pageIndex]="paginate.currentPage - 1"
+          [pageSizeOptions]="[10, 20, 30, 40, 50]"
+        >
+        </mat-paginator>
+
+        <!--/.modal-->
+        <mde-popover
+          #dropdownReportPopover="mdePopover"
+          [mdePopoverOverlapTrigger]="false"
+          [mdeFocusTrapEnabled]="true"
+          [mdePopoverCloseOnClick]="true"
+          mdePopoverTriggerOn="click"
+        >
+          <mat-card style="max-width: 300px">
+            <mat-card-content>
+            </mat-card-content>
+          </mat-card>
+        </mde-popover>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+    <div
+      class="modal fade"
+      id="connectedAgentsFilterModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <popup-filter
+        [data-filters]="filterOptions['filters']"
+        [data-fields]="filterOptions['fields']"
+        (onSearch)="search($event)"
+        (onReset)="reset()"
+      >
+      </popup-filter>
+    </div>
+
+    <div class="modal fade" id="extractAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Agent's Location</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card card-outline">
+              <div class="card-header">
+                <h5 class="card-title"><strong>Current</strong> </h5>
+              </div>
+              <div class="card-body">
+                <p>{{complete_address}}</p>
+              </div>
+            </div>
+            <div class="card card-outline">
+              <div class="card-header">
+                <h5 class="card-title text-strong"><strong>Last Week</strong>  </h5>
+              </div>
+              <div class="card-body">
+                <p>{{last_week_address}}</p>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</div>

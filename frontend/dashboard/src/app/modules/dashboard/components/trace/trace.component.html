@@ -1,0 +1,97 @@
+<div *ngIf="applications.length > 0">
+    <div class="row" style="margin-left: 40px; margin-top: 15px;">
+        <div class="col-md-4">
+            <form class="row" method="#" action="#">
+                <div class="select-trace-application" style="font-size: 11px;">Application
+                    <div class="mb-4">   
+                        <h4 data-toggle="dropdown" class="dropdown-toggle" style="font-size: 13px;">{{ selectedApplication }} <span class="caret"></span></h4>               
+                        <ul *ngIf="applications.length > 0" class="dropdown-menu pre-scrollable" role="menu">
+                            <li *ngFor="let application of applications "><a (click)="setApplication(application)" type="button"> 
+                                {{application.url}}
+                        </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="row" method="#" action="#">
+                <div class="select-trace-timestamp" style="font-size: 11px;">Timestamp
+                    <div class="mb-4">   
+                        <h4 data-toggle="dropdown" class="dropdown-toggle" style="font-size: 13px;">{{ selectedTimestamp | timezone}} <span class="caret"></span></h4>               
+                        <ul *ngIf="timestamps.length > 0" class="dropdown-menu pre-scrollable" role="menu">
+                            <li *ngFor="let timestamp of timestamps "><a (click)="setTimestamp(timestamp)" type="button"> 
+                                {{timestamp.created_at | timezone}}
+                        </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 40px;">
+        <div class="col-lg-6 cards">
+            <div class="card card-pricing card-plain">
+            <div class="card-body">
+                <h3 class="card-title">google.com</h3>
+                <p *ngIf="records" class="card-description pre-wrap" [innerHTML]="records.traceroute_ref">
+            </div>
+            </div>
+        </div>
+        <div class="col-lg-6 cards">
+            <div class="card card-pricing card-raised">
+            <div class="card-body">
+                 <h3 *ngIf="gridApplication" class="card-title">{{ gridApplication }}</h3>
+                <p *ngIf="records" class="card-description pre-wrap" [innerHTML]="records.traceroute"> 
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="applications.length < 1">
+    <div class="row" style="margin-left: 40px;">
+        <div class="card card-pricing card-plain">
+            <div class="card-body">
+                    <h3 class="card-title">No Trace records available</h3>   
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-left: 40px;">
+    <div class="card-body container">
+        <form [formGroup]="traceLogForm">
+            <div class="row">
+                <!-- <label class="col-sm-2 col-form-label">Extract Logs</label> -->
+                <div class="col-sm-12">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input matInput [matDatepicker]="startDatePicker"
+                            formControlName="startDate"
+                            placeholder="Start Date" 
+                            autocomplete="off"
+                            (click)="startDatePicker.open()">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input matInput [matDatepicker]="endDatePicker" 
+                            formControlName="endDate"
+                            placeholder="End Date" 
+                            autocomplete="off"
+                            (click)="endDatePicker.open()">
+                        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endDatePicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>   
+                    <div class="col-md-4">
+                        <button [ngClass]="{ 'disabled' : traceLogForm.invalid  }" class="btn btn-primary btn-sm" (click)="extractLog()">Export Log</button>
+                    </div>    
+                  </div>
+                </div><!--/.col-sm-10-->
+              </div>
+            </form>
+    </div>
+</div>

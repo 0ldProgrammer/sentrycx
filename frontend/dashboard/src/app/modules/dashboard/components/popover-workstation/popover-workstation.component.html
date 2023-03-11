@@ -1,0 +1,25 @@
+<a [mdePopoverTriggerFor]="popover0" #popoverTrigger="mdePopoverTrigger"
+    (click)="clickHandle(agent)"
+    class="waves-effect waves-light btn btn-primary btn-sm btn-link" >
+    <i class="material-icons left">computer</i>
+</a>
+
+<mde-popover #popover0="mdePopover"
+             [mdePopoverOverlapTrigger]="true"
+             [mdePopoverCloseOnClick]="false"
+             [mdePopoverOffsetX]="popoverPositionX"
+             [mdePopoverOffsetY]="popoverPositionY"
+             [mdePopoverArrowOffsetX]="58"
+             mdePopoverArrowColor="#FFFFFF"
+             mdePopoverScrollStrategy="close">
+    <mat-card style="max-width: 960px;" class="container">
+        <mat-card-title>
+            Workstation Profile
+        </mat-card-title>
+        <mat-card-content>
+            <workstation-details-profile 
+            [data-agent-name]="agent['agent_name']"
+            [data-profile]="agent"></workstation-details-profile>
+        </mat-card-content>
+    </mat-card>
+</mde-popover>

@@ -1,0 +1,5 @@
+# POPOVER CSS
+.mat-card-content .pre-wrap table th:first-child,
+.mat-card-content .pre-wrap table td:first-child {
+    text-align: left;
+}

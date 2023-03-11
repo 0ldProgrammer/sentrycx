@@ -1,0 +1,12 @@
+[
+    {"id":1,"isp_code":"GLOBE","isp_name":"Globe Telecom"},
+    {"id":2,"isp_code":"PLDT","isp_name":"Philippine Long Distance Telephone Co."},
+    {"id":3,"isp_code":"RADIUS","isp_name":"RADIUS TELECOMS, INC."},
+    {"id":4,"isp_code":"CVG","isp_name":"Convergys Corp."},
+    {"id":5,"isp_code":"PARASAT","isp_name":"Parasat Cable TV, Inc"},
+    {"id":6,"isp_code":"CONVERGE","isp_name":"Converge Information and Communications Technology Solutions"},
+    {"id":7,"isp_code":"SKY","isp_name":"SKYBROADBAND"},
+    {"id":8,"isp_code":"SNL","isp_name":"Siti Networks Limited"},
+    {"id":9,"isp_code":"EBPL","isp_name":"Excitel Broadband Private Limited"},
+    {"id":10,"isp_code":"GISIPL","isp_name":"Ganesha Internet Services India Private Limited"}
+]

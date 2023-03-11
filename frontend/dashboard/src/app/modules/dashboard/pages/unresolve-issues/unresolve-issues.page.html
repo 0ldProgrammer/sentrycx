@@ -1,0 +1,293 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-plain">
+            <div class="card-header card-header-icon card-header-rose">
+              
+              <div class="card-icon">
+                <i class="material-icons">support_agent</i>
+              </div>
+              <h4 class="card-title mt-0"> Agents
+                <div *ngIf="hasFlagFilttered">
+
+                  <button (click)="changeStatusByBatch(flagFilters, 'For Confirmation')"
+                    mat-raised-button matTooltip="Batch Resolve" 
+                    class="btn btn-primary pull-right btn-sm " >
+                    <i class="material-icons">thumb_up</i> 
+                  </button>
+      
+                  <button (click)="changeStatusByBatch(flagFilters, 'Acknowledge')"
+                    mat-raised-button matTooltip="Batch Acknowledge" 
+                    class="btn btn-danger pull-right btn-sm "  >
+                    <i class="material-icons">spellcheck</i> 
+                  </button>
+      
+                  <button mat-raised-button class="btn btn-warning pull-right btn-sm" 
+                    matTooltip="Filter"
+                    matBadgeColor="accent" matBadge="!" 
+                    data-toggle="modal" data-target="#flagFilterModal" >
+                    <i class="material-icons">search</i> 
+                  </button>
+                </div><!--.button-container-->
+      
+                <div *ngIf="!hasFlagFilttered">
+      
+                  <button  mat-raised-button matTooltip="Batch Resolve(No Filter Selected)" class="btn btn-light pull-right btn-sm" >
+                    <i class="material-icons">thumb_up</i> 
+                  </button>
+      
+                  <button  mat-raised-button matTooltip="Batch Acknowledge(No Filter Selected)" class="btn btn-light pull-right btn-sm " >
+                    <i class="material-icons">spellcheck</i> 
+                  </button>
+      
+                  <button  mat-raised-button class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#flagFilterModal" matTooltip="Filter"  >
+                    <i class="material-icons">search</i> 
+      
+                  </button>
+                </div>
+
+                <dropdown data-title='
+                  <span class="btn-label">
+                    <i class="material-icons">view_column</i>
+                  </span>
+                  '
+                  [data-options]="flagColumns"
+                  [data-default]="flagSelectedColumns"
+                  [data-closeonclick]="false"
+                  data-type="MULTIPLE"
+                  class="pull-right"
+                  (onChange)="onDynamicColumnChange($event)"
+                ></dropdown>
+              </h4>
+            </div><!--/.card-header-->
+
+            <!-- TODO : Convert this into issues-list component-->
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover ">
+                    <thead class="thead-md">
+                      <tr>
+                        <th *ngIf="flagSelectedColumns | contains:'ref_no'">
+                          <sort-header class="text-left" 
+                          data-field='ref_no'
+                          data-name='Reference No'
+                          [data-selected]="sortedField == 'ref_no' "
+                          (onSort)="sortFlag($event)"
+                          ></sort-header>
+                        </th>
+                        <th>
+                            <sort-header class="text-left"
+                            data-field='agent_name'
+                            data-name='Agent Name'
+                           [data-selected]="sortedField == 'agent_name' "
+                           (onSort)="sortFlag($event)"
+                          ></sort-header>
+                        </th>
+                        
+                        <ng-container  *ngFor="let header of flagHeaders">
+                          <th *ngIf="flagSelectedColumns | contains:header.field"> 
+                            <sort-header
+                            class="text-left"
+                            [data-field]='header.field'
+                            [data-name]='header.name'
+                           [data-selected]="sortedField == header.field"
+                           (onSort)="sortFlag($event)"
+                          ></sort-header>
+                          </th>
+                        </ng-container>
+                        <th *ngIf="flagSelectedColumns | contains:'media_device'"><i class="material-icons">headset</i></th>
+                        <th *ngIf="flagSelectedColumns | contains:'media_device'"><i class="material-icons">mic</i></th>
+                        <th *ngIf="flagSelectedColumns | contains:'media_device'"><i class="material-icons" >camera_alt</i></th>
+                        <th>Action</th>
+                        <th>More Details</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                  <tbody>
+                    <tr *ngIf="flags.length == 0">
+                      <td colspan="100%" class="text-center" style="padding: 6px;">No Reported issues from logged in agents.</td>
+                    </tr>
+
+                    <tr *ngFor="let issue of flags">
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'ref_no'">{{ issue.ref_no }}</td>
+                    <td class="text-left">
+                      <popover *ngIf="issue.mtr" class="mtr-table"
+                        [data-text]="issue.agent_name | titlecase" 
+                        [data-header]="'MTR Result : ' + issue.agent_name | titlecase"
+                        [data-content]="issue.mtr"
+                      ></popover>
+                      <popover *ngIf="!issue.mtr"
+                        [data-text]="issue.agent_name | titlecase" 
+                        [data-header]="'MTR Result : ' + issue.agent_name | titlecase"
+                        data-content="No MTR recorded for this issue."
+                      ></popover>
+                    </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'host_name'">{{ issue.host_name }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'code'">{{ issue.code_name }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'category'">{{ issue.category_name | uppercase }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'connection'">{{ issue.connection_type | default:'-' }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'agent' ">{{ issue.host_ip_address | networkType }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'position'">{{ issue.job_profile }}</td>
+
+                    
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'location'">{{ issue.location }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'account'">{{ issue.account }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'manager'">{{ issue.supervisor_full_name }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'status_info'">{{ issue.status_info }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'mtr_highest_avg'">{{ issue.mtr_highest_avg }} </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'mtr_highest_loss'">{{ issue.mtr_highest_loss }}</td>
+
+                    <!--! Display only based on filter -->
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'VLAN'">{{ issue.VLAN }} </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'DNS_1'">{{ issue.DNS_1 }} </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'DNS_2'">{{ issue.DNS_2 }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'subnet'">{{ issue.subnet }} </td>
+                    <!-- <td class="text-left" *ngIf="flagSelectedColumns | contains:'ISP'">{{ issue.ISP }}</td> -->
+                    <td *ngIf="flagSelectedColumns | contains:'ISP'" class="text-left" >
+                      <div *ngIf="issue.ISP == issue.isp_fullname">
+                        {{ issue.ISP }}
+                      </div>
+                      <div *ngIf="issue.ISP != issue.isp_fullname" matTooltip="{{issue.isp_fullname}}" 
+                        matTooltipPosition="after" 
+                        matTooltipClass="tooltip-css">
+                        {{ issue.ISP }}
+                      </div>
+                    </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'download_speed'">{{ issue.download_speed }} Mbps</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'upload_speed'">{{ issue.upload_speed }} Mbps</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'average_latency'">{{ issue.average_latency }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'packet_loss'">{{ issue.packet_loss }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'jitter'">{{ issue.jitter }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'mos'" [ngClass]="issue.mos | mosRate">{{ issue.mos | number : '1.2-2'}} </td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'timestamp_submitted'">{{ issue.timestamp_submitted | dateAgo }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'date_created'">{{ issue.date_created | timezone }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'lob'">{{ issue.lob }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'programme_msa'">{{ issue.programme_msa }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'job_profile'">{{ issue.job_profile }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'supervisor_email_id'">{{ issue.supervisor_email_id }}</td>
+                    <td class="text-left" *ngIf="flagSelectedColumns | contains:'supervisor_full_name'">{{ issue.supervisor_full_name }}</td>
+                    <td *ngIf="flagSelectedColumns | contains:'media_device'"> 
+                      <i class="material-icons text-success" *ngIf="issue.audio == true" text-success>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="issue.audio == false" text-danger>block</i>
+                      <i *ngIf="issue.audio === null" text-warning>-</i>
+                    </td>
+                    <td *ngIf="flagSelectedColumns | contains:'media_device'">  
+                      <i class="material-icons text-success" *ngIf="issue.mic == true" text-success>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="issue.mic == false" text-danger>block</i>
+                      <i  *ngIf="issue.mic === null" text-warning>-</i>
+                    </td>
+                    <td *ngIf="flagSelectedColumns | contains:'media_device'">    
+                      <i class="material-icons text-success" *ngIf="issue.video == true" text-success>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="issue.video == false" text-danger>block</i>
+                      <i *ngIf="issue.video === null" text-warning>-</i>
+                    </td>
+                    <td>
+                      <button *ngIf="issue.status_info == 'Inquiry' "
+                      (click)="changeStatus(issue.id, 'Acknowledge')"
+                      mat-raised-button class="btn btn-warning btn-sm">Acknowledge</button>
+                      <button *ngIf="issue.status_info == 'Acknowledge'" 
+                        (click)="changeStatus(issue.id, 'For Confirmation')"
+                        mat-raised-button class="btn btn-success btn-sm">Resolve</button>
+
+                    </td>
+                    <td class="td-actions text-right">
+                      <!-- Web MTR Modal -->
+                      <a *ngIf="issue.is_active" matTooltip="Viewing WEB MTR" 
+                        matTooltipPosition="before" 
+                        matTooltipClass="tooltip-css" 
+                        class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                        (click)="!!loadWebMTR(issue.connection_id)">
+                          <i class="material-icons left">network_cell</i>
+                      </a>
+
+                      <!-- Remote Desktop Button -->
+                      <a *ngIf="issue.is_active" matTooltip="ZOHO" 
+                        matTooltipPosition="before" 
+                        class="waves-effect waves-light btn btn-danger btn-sm btn-link" 
+                        target="_blank" [routerLink]="['/integrations/zoho']" 
+                        [queryParams]="{ state : issue.worker_id }">
+                          <i class="material-icons left">screen_share</i>
+                      </a>
+
+                      <!-- Web MTR Button -->
+                      <a *ngIf="!issue.is_active" matTooltip="Agent is offline" 
+                        matTooltipPosition="before" 
+                        matTooltipClass="tooltip-css" 
+                        class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                        >
+                          <i class="material-icons left">network_cell</i>
+                      </a>
+
+                      <!-- Remote Desktop Button -->
+                      <a *ngIf="!issue.is_active" matTooltip="Agent is Offline" 
+                        matTooltipPosition="before" 
+                        matTooltipClass="tooltip-css" 
+                        class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                        >
+                          <i class="material-icons left">screen_share</i>
+                      </a>
+
+                     <popover-agent (onClick)="loadAgentProfile($event)"
+                      [data-agent-id]="issue.worker_id"
+                      [profile]="issue">
+                    </popover-agent>
+
+                      <!-- Workstation Profile Button -->
+                      <popover-workstation *ngIf="issue.station_id " [data-text]="''" 
+                        [data-agent]="issue"
+                        (onClick)="loadWorkstation($event)"
+                      ></popover-workstation>
+
+                      <a *ngIf="!issue.station_id" matTooltip="No Workstation Profile" 
+                        matTooltipPosition="before" 
+                        matTooltipClass="tooltip-css" 
+                        class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                        >
+                          <i class="material-icons left">computer</i>
+                      </a>
+
+                      <!-- Application Monitoring Button : DISABLED -->
+                      <a *ngIf="!issue.has_threshold" matTooltip="Agent Applications" 
+                        matTooltipPosition="before" 
+                        (click)="loadAplicationMonitoring(issue)"
+                        class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                      >
+                          <i class="material-icons left">apps</i>
+                      </a>
+
+                      <!-- Application Monitoring Button  -->
+                      <a *ngIf="issue.has_threshold" matTooltip="Agent Applications" 
+                        (click)="loadAplicationMonitoring(issue)"
+                        matTooltipPosition="before" 
+                        class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                        matBadgeColor="accent"
+                        matBadge="!" >
+                          <i class="material-icons left">apps</i>
+                      </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>  
+          <mat-paginator (page)="updatePage($event)"
+            [length]="flagPaginate.total"
+            [pageSize]="flagPaginate.perPage"
+            [pageSizeOptions]="[10, 20, 30, 40, 50]">
+          </mat-paginator>
+
+        
+            <div class="modal fade" id="flagFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <popup-filter [data-filters]="flagFilterOptions['filters']"
+                    [data-fields]="flagFilterOptions['fields']"
+                    (onSearch)="searchFlag($event)"
+                    (onReset)="clearSearchFlag()">
+                  </popup-filter>
+            </div><!--/.modal-->
+        </div>
+      </div>
+  </div>
+</div>
+

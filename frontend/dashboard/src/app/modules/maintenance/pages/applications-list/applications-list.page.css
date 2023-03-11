@@ -1,0 +1,12 @@
+.fab-btn-bottom {
+    position: fixed;
+    right: 15px;
+    bottom: 10px;
+    height: 3em;
+    width: 3em;
+}
+
+th:nth-child(2), td:nth-child(2) {
+    box-shadow: inset -1px 0px 0px 0px rgba(88, 87, 87, 0.75);
+}
+  

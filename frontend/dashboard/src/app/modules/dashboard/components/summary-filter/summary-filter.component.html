@@ -1,0 +1,58 @@
+<div class="modal-dialog modal-notice">
+  <div class="modal-content">
+        <div class="modal-header ">
+          <h4 class="modal-title" id="modal-basic-title">Filter Flags</h4>
+          <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="material-icons">clear</i>
+          </button>
+        </div>
+        <div class="modal-body ">
+          <div>
+            <mat-form-field appearance="fill" class="my-1">
+                <mat-label>Filters </mat-label>
+                  <mat-select [formControl]="filter" multiple>
+                    <mat-option *ngFor="let filterName of filterList" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            
+              <!-- <mat-form-field *ngIf="hasSelected(filter.value, 'Employee Name')" class="example-full-width my-1">
+                <mat-label>Employee Name</mat-label>
+                <input [formControl]="filterName" matInput placeholder="Search by agent">
+              </mat-form-field> -->
+            
+              <!-- <mat-form-field *ngIf="hasSelected(filter.value, 'Location')" appearance="fill" class="my-1">
+                <mat-label>Location </mat-label>
+                  <mat-select [formControl]="filterLocation" multiple>
+                    <mat-option *ngFor="let filterName of filterListLocation" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field> -->
+            
+              <mat-form-field *ngIf="hasSelected(filter.value, 'Country')" appearance="fill" class="my-1">
+                <mat-label>Country </mat-label>
+                  <mat-select [formControl]="filterCountry" multiple>
+                    <mat-option *ngFor="let filterName of filterListCountry" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            
+              <mat-form-field *ngIf="hasSelected(filter.value, 'Account')" appearance="fill" class="my-1">
+                <mat-label>Account </mat-label>
+                  <mat-select [formControl]="filterAccount" multiple>
+                    <mat-option *ngFor="let filterName of filterListAccount" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            
+              <!-- <mat-form-field *ngIf="hasSelected(filter.value, 'Status')" appearance="fill" class="my-1">
+                <mat-label>Status </mat-label>
+                  <mat-select [formControl]="filterStatus" multiple>
+                    <mat-option *ngFor="let filterName of filterListStatus" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field> -->
+            </div>
+
+            <button data-dismiss="modal" (click)="search()" mat-raised-button class="btn btn-primary"><i class="material-icons">search</i>Search</button>
+            <button data-dismiss="modal" (click)="reset()" mat-raised-button class="btn btn-default close"><i class="material-icons">refresh</i>Reset</button>
+            
+            
+        </div>
+    </div>
+</div>

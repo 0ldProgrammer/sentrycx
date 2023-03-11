@@ -1,0 +1,16 @@
+.card {
+    background: white;
+}
+
+.ct-grid-background {
+    fill: aliceblue;
+}
+.ct-series-a .ct-line,
+.ct-series-a .ct-point {
+  stroke: blue;
+}
+
+.ct-series-b .ct-line,
+.ct-series-b .ct-point {
+  stroke: green;
+}

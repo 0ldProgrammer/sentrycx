@@ -1,0 +1,82 @@
+<div class="modal-header ">
+    <div class="card-icon">
+        <i class="material-icons">insert_drive_file</i>
+    </div>
+    Centralized Hostfile
+    
+    
+    <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="dialogRef.close()">
+        <i class="material-icons">clear</i>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="card-body container">
+        <div class="row">
+            
+            <h4 class="text-center col-12 "> Centralized Hostfile for  {{ account }} </h4>
+            
+            <div class="col-lg-12 cards">
+                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                <div class="card card-pricing card-raised" style="height: 60vh;">
+                  <div class="card-body">
+                    <p *ngIf="!editMode"  class="card-description pre-wrap hostfile-display" [innerHTML]="hostfileText.value"></p>
+                    <textarea *ngIf="editMode" 
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        matInput
+                        cdkAutosizeMinRows="20"
+                        [formControl]="hostfileText"></textarea>
+                  </div>
+                </div>
+            </div>
+          <!--/.col-md-4-->
+        </div><!--/.row-->
+    </div><!--/.card-body.container-->
+    <div class="card-footer">
+        <!-- <h</h4> -->
+        
+        <div class="row">
+            <!-- <label class="col-sm-3 col-form-label">Extract Application Statistics</label> -->
+            <div class="col-md-12">
+                <button *ngIf="editMode" (click)="update(true)" 
+                    mat-raised-button class="btn btn-success btn-sm">
+                    <i class="material-icons">send</i>
+                    Save &amp; Update
+                </button>
+
+                <button *ngIf="editMode" (click)="update(false)" 
+                    mat-raised-button class="btn btn-primary btn-sm">
+                    <i class="material-icons">save</i>
+                    Save 
+                </button>
+
+                <button *ngIf="editMode" mat-raised-button (click)="editMode = false "
+                    class="btn btn-light btn-sm pull-right">
+                    <i class="material-icons">cancel</i>
+                    Cancel
+                </button>
+
+                <button *ngIf="!editMode && !isLoading" (click)="editMode = true " 
+                    mat-raised-button class="btn btn-warning btn-sm pull-right">
+                    <i class="material-icons">edit</i>
+                    Edit
+                </button>
+
+                <button *ngIf="!editMode && isLoading" 
+                    mat-raised-button class="btn btn-disabled btn-sm pull-right">
+                    <i class="material-icons">edit</i>
+                    Edit
+                </button>
+
+                
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+        
+        </div><!--/.row-->
+    </div>
+</div><!--/.modal-container-->

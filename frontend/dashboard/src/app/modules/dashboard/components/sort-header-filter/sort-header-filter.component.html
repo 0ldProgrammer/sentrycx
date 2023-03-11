@@ -1,0 +1,72 @@
+<div class="dropdown" style="cursor: pointer;">
+  <span data-toggle="dropdown" [class.text-info]="selected">
+    <i *ngIf="!selected && !filters[field]" class="material-icons">swap_vert</i> 
+    <i *ngIf="!selected && filters[field]" class="material-icons">filter_list</i> 
+    <i *ngIf="direction=='ASC' && selected" class="material-icons">arrow_upward</i> 
+    <i *ngIf="direction=='DESC' && selected" class="material-icons">arrow_downward</i> 
+    {{ name }} 
+  </span>
+  <ul class="dropdown-menu dropdown-menu-top pre-scrollable allow-focus x-scroll-disabled"  (click)="$event.stopPropagation()">
+    <li class="dropdown-header">Filter</li>
+    <li>
+        <button mat-raised-button class="btn btn-link btn-primary" (click)="sort('ASC')">
+          <span class="btn-label">
+            <i class="material-icons">arrow_upward</i>
+          </span>
+          <b>ASCENDING</b>
+        </button>
+    </li>
+    <li>
+      <button mat-raised-button class="btn btn-link btn-primary" (click)="sort('DESC')">
+        <span class="btn-label">
+          <i class="material-icons">arrow_downward</i>
+        </span>
+        <b>DESCENDING</b>
+      </button>
+    </li>
+    <li>
+      <!-- <div class="input-group">
+        <div class="form-outline">
+          <input type="search" class="form-control-dropdown" placeholder="Search" style="width: 180px; height: 24px;"/>
+        </div>
+      </div> -->
+
+      <form *ngIf="filters[field]" class="navbar-form">
+        <span class="bmd-form-group">
+            <div class="input-group no-border">
+                <input autocomplete="off" style="margin-right: 4px; margin-left: 4px;" type="text" [(ngModel)]="search_value"
+                    [formControl]="dropdownSearchBar" class="form-control" placeholder="Search...">
+                <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                    aria-label="Clear" (click)="clear()">
+                    <mat-icon>close</mat-icon>
+                </button> 
+            </div>
+        </span>
+      </form>
+    </li>
+    <!-- <li>
+      <a>
+        <input type="checkbox" checked="true"/>&nbsp; Select all 
+      </a>
+    </li> -->
+
+    <ng-container *ngIf="result?.length > 0">
+      <li *ngFor="let filterName of result" [value]="filterName">
+        <a>
+          <input type="checkbox" style="padding: 0.625rem;" [checked] = "isChecked(filterName)" (click)="checkFilterData(filterName, $event)"/>&nbsp;{{filterName}}
+        </a>
+      </li>
+    </ng-container>
+
+    <ng-container *ngIf="result?.length < 1 && value">
+    </ng-container>
+
+    <ng-container *ngIf="result?.length < 1 && !value">
+      <li *ngFor="let filterName of filters[field]" [value]="filterName">
+        <a>
+          <input type="checkbox" [checked] = "isChecked(filterName)" (click)="checkFilterData(filterName, $event)"/>&nbsp;{{filterName}}
+        </a>
+      </li>
+    </ng-container>
+</ul>
+</div>

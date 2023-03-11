@@ -1,0 +1,72 @@
+`<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">assignment</i>
+                    </div>
+                    <!-- <dropdown [data-title]="agentStatusTitle"
+                      [data-options]="agentStatusOptions"
+                      [data-default]="['online']"
+                      data-type="SINGLE"
+                      (onChange)="onAgentStatusFilter($event)"
+                    ></dropdown>  -->
+                  </div>
+                <div class="card-body">
+                    <button *ngIf="hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm"  matBadgeColor="accent" matBadge="!" data-toggle="modal" data-target="#connectedAgentsFilterModal" >
+                      <i class="material-icons">search</i> 
+                    </button>
+          
+                    <button *ngIf="!hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#connectedAgentsFilterModal"   >
+                      <i class="material-icons">search</i> 
+                    </button>
+                    
+                    <!-- TODO : COnvert this into dynamic-columns component -->
+                    <dropdown data-title='
+                        <span class="btn-label">
+                          <i class="material-icons">view_column</i>
+                        </span>
+                        '
+                        [data-options]="tableColumns"
+                        [data-default]="selectedColumns"
+                        [data-closeonclick]="false"
+                        data-type="MULTIPLE"
+                        class="pull-right"
+                        (onChange)="onDynamicColumnChange($event)"
+                      ></dropdown>
+
+                      <auto-refresher (onChange)="invalidateRefresh()"></auto-refresher>
+
+                      <button (click)="invalidateRefresh()" mat-raised-button class="btn btn-success btn-sm"  matBadgeColor="accent" matBadge="{{updateCounter}}" >
+                        <i class="material-icons">refresh</i> 
+                      </button>
+
+                    <agent-list [data]="connectedAgents" 
+                      [loader]="isLoading"
+                      [data-headers]="tableHeaders"
+                      [data-selected]="selectedColumns"
+                      (onSort)="sortFlag($event)"
+                      (onChange)="onSpeedtestFilter($event)"
+                    ></agent-list>
+
+                    <mat-paginator (page)="updateData($event)"
+                      [length]="paginate.total"
+                      [pageSize]="paginate.perPage"
+                      [pageIndex]="paginate.currentPage - 1"
+                      [pageSizeOptions]="[10, 20, 30, 40, 50]">
+                    </mat-paginator>
+
+                    <div class="modal fade" id="connectedAgentsFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <popup-filter [data-filters]="filterOptions['filters']"
+                        [data-fields]="filterOptions['fields']"
+                        (onSearch)="search($event)"
+                        (onReset)="reset()">
+                      </popup-filter>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

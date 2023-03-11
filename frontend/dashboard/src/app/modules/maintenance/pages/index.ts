@@ -1,0 +1,15 @@
+export { CodeListPage } from './code-list/code-list.page';
+export { UsersListPage } from './users-list/users-list.page';
+export { AccountsPage } from './accounts/accounts.page';
+export { EventApprovalsPage } from './event-approvals/event-approvals.page';
+export { SubnetMappingPage } from './subnet-mapping/subnet-mapping.page';
+export { VlanMappingPage } from './vlan-mapping/vlan-mapping.page';
+export { AuxListPage } from './aux-list/aux-list.page';
+export { DeploymentPage } from './deployment/deployment.page';
+export { ApplicationsListPage } from './applications-list/applications-list.page';
+export { VPNApprovalPage } from './vpn-approval/vpn-approval.page';
+export { ApplicationUrlsPage } from './application-urls/application-urls.page';
+export { SoftwareUpdatePage } from './software-update/software-update.page';
+// export { CollectionPage } from './collection/collection.page';
+export { MailNotificationPage } from './mail-notification/mail-notification.page';
+export { TimeFramePage } from './time-frame/time-frame.page';

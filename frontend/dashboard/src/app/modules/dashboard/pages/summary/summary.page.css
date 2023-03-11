@@ -1,0 +1,49 @@
+.cdk-overlay-container {
+    z-index: 9999 !important;
+}
+
+p.card-category {
+    font-size: 12px;
+    font-weight: bold;
+    color: #989999 !important;
+}
+
+
+.table-responsive {
+    min-height: 14em;
+    white-space: nowrap;
+}
+
+.slow-blink-icon {
+    animation: blink 2.5s linear infinite;
+}
+
+.normal-blink-icon {
+    animation: blink 1.5s linear infinite;
+}
+
+.fast-blink-icon {
+    animation: blink .5s linear infinite;
+}
+
+@keyframes blink{
+    50%{color:white;}
+    100%{color:black;}
+  }
+
+.summary-block .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+    height: 2em!important;
+}
+
+
+.summary-block .mat-list-item-content {
+    padding: 0 !important;
+}
+
+.mat-list-item-content {
+    padding: 0px!important;
+}
+
+.summary-block .card-icon {
+    padding: 4px;
+}

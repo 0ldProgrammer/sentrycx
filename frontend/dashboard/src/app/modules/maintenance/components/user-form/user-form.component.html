@@ -1,0 +1,91 @@
+<!-- TODO : Convert this to user form-->
+<form class="simple-form" [formGroup]="userForm">
+  <!-- Email Address -->
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <mat-label>Email address:</mat-label>
+      <input autocomplete="off" formControlName="email" type="email" class="form-control" id="emailAddress" matInput
+        placeholder="firstname.lastname@concentrix.com">
+    </mat-form-field>
+    <small *ngIf="isInvalid('email')" class="text-danger">Email is invalid</small>
+  </div>
+
+  <!-- Display Name -->
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <mat-label>Display Name:</mat-label>
+      <input autocomplete="off" formControlName="firstname" type="text" class="form-control" id="displayName" matInput
+        placeholder="Firstname Lastname">
+    </mat-form-field>
+    <small *ngIf="isInvalid('firstname')" class="text-danger">Display Name is invalid</small>
+  </div>
+
+  <!-- Username -->
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <mat-label>Username:</mat-label>
+      <input autocomplete="off" formControlName="username" type="text" class="form-control" id="username" matInput
+        placeholder="firstname.lastname">
+    </mat-form-field>
+    <small *ngIf="isInvalid('username')" class="text-danger">Username is invalid</small>
+  </div>
+
+
+
+<div class="form-group" *ngIf="'users:scope' | access ">
+  <chip-autocomplete data-title="Accounts Access"
+    data-key="msa_client"
+    [data-options]="accounts"
+    [data-init]="userForm.controls['account_access'].value"
+    (onChange)="onAccountChange($event)"
+  >
+  </chip-autocomplete>
+</div>
+
+<div class="form-group" *ngIf="'users:scope' | access ">
+  <chip-autocomplete data-title="Sites Access"
+    data-key="location_name"
+    [data-options]="sites"
+    [data-init]="userForm.controls['location'].value"
+    (onChange)="onLocationChange($event)"
+  >
+  </chip-autocomplete>
+  
+  <small class="text-danger d-block mt-4">*Note : If empty, will be given full access</small>
+</div>
+
+<!-- <div class="form-group">
+  <chip-autocomplete data-title="Access Control"
+    data-key="name"
+    [data-options]="ACCESS_SCOPES"
+    [data-init]="userForm.controls['scope_access'].value"
+    (onChange)="onScopeAccessChange($event)"
+  >
+  </chip-autocomplete>
+</div> -->
+<div class="form-group">
+  <mat-form-field appearance="fill">
+    <mat-label>Access Control</mat-label>
+    <mat-select [(ngModel)] = "selectedAccess"
+      multiple
+      formControlName="scope_access" 
+      (selectionChange)="onScopeAccessChange($event)" >
+        <mat-option value="admin">Administrator Access</mat-option>
+      <mat-option *ngFor="let access of ACCESS_SCOPES" [value]="access.id">{{access.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+</div>
+
+
+<div class="modal-footer justify-content-center">
+  <button [ngClass]="{ 'disabled' : userForm.invalid  }" mat-raised-button type="button" class="btn btn-success btn-sm btn-link" (click)="submit(userForm)">Save User
+    <div class="ripple-container"></div>
+  </button>
+  <button mat-raised-button type="button" #closebutton class="btn btn-danger btn-sm btn-link" data-dismiss="modal"
+    (click)="clear()">Cancel
+  </button>
+</div>
+
+
+</form>

@@ -1,0 +1,24 @@
+hr {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+  }
+  
+  .menu-headers-align .mat-expansion-panel-header-title,
+  .menu-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+  }
+  
+  .menu-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  ::ng-deep .mat-tab-body-content {
+    overflow: hidden !important;
+  }
+
+  mat-panel-description.right-aligned {
+    flex-grow: 0;
+  }

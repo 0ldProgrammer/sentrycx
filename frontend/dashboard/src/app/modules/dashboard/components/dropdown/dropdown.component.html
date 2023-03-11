@@ -1,0 +1,26 @@
+<div *ngIf="button === 'breakdown'" class="card-icon" style="cursor: pointer;" [mdePopoverTriggerFor]="dropdownPopover"
+    mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger" [innerHTML]="title">  
+</div>
+
+<button mat-raised-button *ngIf="button === ''"
+    [mdePopoverTriggerFor]="dropdownPopover" [ngClass]="" class="pre-wrap btn-sm btn btn-info {{class}}"
+    mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger" [innerHTML]="title">
+</button>
+
+<mde-popover style="overflow-y: auto;" #dropdownPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true" [mdePopoverCloseOnClick]="closeOnClick" mdePopoverTriggerOn="click">
+    <mat-card style="max-width: 300px; max-height: 650px; overflow-y: auto;">
+        <mat-card-content>
+            <mat-nav-list>
+                <a mat-list-item *ngFor="let option of options" (click)="check(option.value)">
+                    <span class="btn-label" *ngIf="selected | contains:option.value">
+                        <i class="material-icons">check_box</i>
+                    </span>
+                    <span class="btn-label" *ngIf="!( selected | contains:option.value )">
+                        <i class="material-icons">check_box_outline_blank</i>
+                    </span>
+                    {{ option.name }} 
+                </a>
+            </mat-nav-list>
+        </mat-card-content>
+    </mat-card>
+</mde-popover>

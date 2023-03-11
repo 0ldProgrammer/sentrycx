@@ -1,0 +1,25 @@
+<div class="modal-header ">
+    <div class="card-icon">
+        
+        <h4 class="modal-title">
+            <i class="material-icons">account_box</i>
+            Agent Profile
+            
+        </h4>
+    </div>
+    <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="dialogRef.close()">
+        <i class="material-icons">clear</i>
+    </button>
+</div><!--/.modal-header-->
+
+<div class="modal-body" >
+    <form *ngIf="hasData" method="#" action="#">
+        <mat-form-field  class="example-full-width">
+            <input matInput type="text" placeholder="Employee Name" value="{{ profile.firstname + ' ' + profile.lastname}}" disabled />
+        </mat-form-field>    
+
+        <mat-form-field *ngFor="let field of PROFILE_FIELDS" class="example-full-width">
+            <input matInput type="text" placeholder="{{ field.name }}" value="{{ profile[field.id] }}" disabled />
+        </mat-form-field>    
+    </form>
+</div>

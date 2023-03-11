@@ -1,0 +1,78 @@
+<form *ngIf="profile" method="#" action="#" style="max-width:720px;">
+    <div class="row">
+      <mat-form-field class="col-lg-6">
+        <input matInput type="text" placeholder="Agent Name" [attr.value]="agentName" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="Date Extracted" [attr.value]="(profile['updated_at'] | timezone )  + ' ( version : ' + profile['desktop_app_version'] + ')'" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="Workstation" [attr.value]="profile['station_number']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+        <input matInput type="text" placeholder="IP Address" [attr.value]="profile['host_ip_address']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="Subnet" [attr.value]="profile['subnet']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="Gateway" [attr.value]="profile['gateway']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="DNS" [attr.value]="profile['DNS_2'] + '/' +profile['DNS_1'] " disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+          <input matInput type="text" placeholder="VLAN" [attr.value]="profile['VLAN']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+        <!-- <textarea placeholder="Download Speed" class="pre-wrap"
+        matInput disabled
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="2" >{{ speedtestParsed['downloadSpeed']}}
+        </textarea> -->
+        <input matInput type="text" placeholder="Download Speed" [attr.value]="profile['download_speed']" disabled>
+      </mat-form-field>
+
+        <mat-form-field class="col-lg-6">
+            <input matInput type="text" placeholder="Upload Speed" [attr.value]="profile['upload_speed']" disabled>
+            <!-- <textarea placeholder="Upload Speed" class="pre-wrap"
+            matInput disabled
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="2" >{{ speedtestParsed['uploadSpeed']}}
+            </textarea> -->
+        </mat-form-field>
+
+      
+
+      <mat-form-field class="col-lg-6">
+        <input matInput type="text" placeholder="ISP" [attr.value]="profile['ISP']" disabled>
+      </mat-form-field>
+
+      <mat-form-field class="col-lg-6">
+        <input matInput type="text" placeholder="MOS" [attr.value]="profile['mos'] | number : '.2-2'" disabled [ngClass]="profile['mos'] | mosRate ">
+      </mat-form-field>
+    </div>
+</form>
+
+<div class="row" *ngIf="isHistorical">
+      <div class="col-md-8">
+          <nav aria-label="Page navigation example">
+
+              <ul class="pagination pagination-primary">
+                  <li *ngFor="let item of range(paginate.total); let i = index;"
+                      [ngClass]="{'active' : paginate.currentPage == ( i + 1 ) }"
+                      class="page-item">
+                  <a mat-button class="page-link" (click)="updateData(i + 1)" > {{ i + 1 }}</a>
+                  </li>
+              </ul>
+          </nav>
+      </div>
+</div>

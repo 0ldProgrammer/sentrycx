@@ -1,0 +1,212 @@
+
+<div class="table-responsive">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <table class="table table-striped table-hover">
+         <thead class="text-primary">
+             <tr>
+               <th>
+                 <dropdown [data-title]="speedtestTitle"
+                   [data-options]="speedtestOptions"
+                   [data-default]="['all']"
+                   data-class="btn-link p-0"
+                   data-type="SINGLE"
+                   (onChange)="onSpeedtestFilter($event)"
+                 ></dropdown> 
+               </th>
+
+               <th>
+                  <sort-header class="text-left"
+                   data-field='agent_name'
+                   data-name='Agent Name'
+                 [data-selected]="sortedField == 'agent_name' "
+                 (onSort)="sortFlag($event)"
+                 ></sort-header>
+               </th>
+
+               <ng-container *ngFor="let header of headers">
+                 <th *ngIf="selectedColumns | contains:header.field">
+                   <sort-header [ngClass]="header.class"
+                     [data-field]='header.field'
+                     [data-name]='header.name'
+                     [data-selected]="sortedField == header.field"
+                     (onSort)="sortFlag($event)"
+                   ></sort-header>
+                 </th>
+               </ng-container>
+               <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons">headset</i></th>
+               <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons">mic</i></th>
+               <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons" >camera_alt</i></th>             
+               <th class="text-center"></th>
+               <th></th>
+             </tr>
+         </thead>
+       <tbody>
+           <tr *ngFor="let agent of connectedAgents ">
+                 <td>
+                   <popover-red-dot [data-agent]="agent"></popover-red-dot>
+                 </td>
+                 <td class="text-left">
+                   <popover [data-text]="agent.agent_name | titlecase" 
+                     [data-header]="'MTR Result : ' + agent.agent_name"
+                     [data-content]="agent.mtr_result"
+                     class="mtr-table"
+                   ></popover>
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'host_name'" class="text-left">{{ agent.host_name | default:'-'}}</td>
+                 <td *ngIf="selectedColumns | contains:'connection_type'" class="text-left">{{ agent.connection_type | default:'-'}}</td>
+                 <td *ngIf="selectedColumns | contains:'net_type'" class="text-left">{{ agent.net_type }}</td>
+                 <td *ngIf="selectedColumns | contains:'location'" class="text-left">{{ agent.location }}</td>
+                 <td *ngIf="selectedColumns | contains:'manager'" class="text-left">{{ agent.job_profile }}</td>
+                 <td *ngIf="selectedColumns | contains:'account'" class="text-left">{{ agent.account }}</td>
+                 <td *ngIf="selectedColumns | contains:'mtr_highest_avg'">{{ agent.mtr_highest_avg | number : '1.2-2' }} </td>
+                 <td *ngIf="selectedColumns | contains:'mtr_highest_loss'">{{ agent.mtr_highest_loss | number : '1.2-2' }}</td>
+                 <td *ngIf="selectedColumns | contains:'VLAN'" class="text-left" >{{ agent.VLAN }} </td>
+                 <td *ngIf="selectedColumns | contains:'DNS_1'" class="text-left" >{{ agent.DNS_1 }} </td>
+                 <td *ngIf="selectedColumns | contains:'DNS_2'" class="text-left" >{{ agent.DNS_2 }}</td>
+                 <td *ngIf="selectedColumns | contains:'subnet'" class="text-left" >{{ agent.subnet }} </td>
+                 <!-- <td *ngIf="selectedColumns | contains:'ISP'" class="text-left" >{{ agent.ISP }}</td> -->
+                 <td *ngIf="selectedColumns | contains:'ISP'" class="text-left" >
+                     <div *ngIf="agent.ISP == agent.isp_fullname">
+                       {{ agent.ISP }}
+                     </div>
+                     <div *ngIf="agent.ISP != agent.isp_fullname" matTooltip="{{agent.isp_fullname}}" 
+                       matTooltipPosition="after" 
+                       matTooltipClass="tooltip-css">
+                       {{ agent.ISP }}
+                     </div>
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'download_speed'" [ngClass]="{'text-danger': (agent.download_speed && agent.download_speed <= 10)}">
+                   {{ agent.download_speed | replace:'Download speed: ':''}} {{ agent.download_speed ? 'Mbps' : '-'}}
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'upload_speed'" >
+                   {{ agent.upload_speed | replace:'Upload speed: ':''}} {{ agent.upload_speed ? 'Mbps' : '-'}}
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'average_latency'">{{ agent.average_latency | number : '1.2-2'}}</td>
+                 <td *ngIf="selectedColumns | contains:'packet_loss'">{{ agent.packet_loss | number : '1.2-2' }}% </td>
+                 <td *ngIf="selectedColumns | contains:'jitter'">{{ agent.jitter | number : '1.2-2'}}</td>
+                 <td *ngIf="selectedColumns | contains:'mos'" [ngClass]="agent.mos | mosRate">{{ agent.mos | number : '1.2-2'}} </td>
+                 <td *ngIf="selectedColumns | contains:'updated_at'"  class="text-left">{{ agent.updated_at | dateAgo }}</td>
+                 <td *ngIf="selectedColumns | contains:'Throughput_percentage'">{{ agent.Throughput_percentage }} </td>
+                 <td *ngIf="selectedColumns | contains:'lob'">{{ agent.lob | default:'-' }}</td>
+                 <td *ngIf="selectedColumns | contains:'programme_msa'">{{ agent.programme_msa | default:'-' }}</td>
+                 <td *ngIf="selectedColumns | contains:'job_profile'">{{ agent.job_profile | default:'-' }}</td>
+                 <td *ngIf="selectedColumns | contains:'supervisor_email_id'">{{ agent.supervisor_email_id | default:'-' }}</td>
+                 <td *ngIf="selectedColumns | contains:'supervisor_full_name'">{{ agent.supervisor_full_name | default:'-' }}</td>
+                 <td *ngIf="selectedColumns | contains:'media_device'"> 
+                   <i class="material-icons text-success" *ngIf="agent.audio == true" text-success>check_circle</i>
+                   <i class="material-icons text-danger" *ngIf="agent.audio == false" text-danger>block</i>
+                   <i *ngIf="agent.audio === null" text-warning>-</i>
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'media_device'">  
+                   <i class="material-icons text-success" *ngIf="agent.mic == true" text-success>check_circle</i>
+                   <i class="material-icons text-danger" *ngIf="agent.mic == false" text-danger>block</i>
+                   <i  *ngIf="agent.mic === null" text-warning>-</i>
+                 </td>
+                 <td *ngIf="selectedColumns | contains:'media_device'"> 
+                   <i class="material-icons text-success" *ngIf="agent.video == true" text-success>check_circle</i>
+                   <i class="material-icons text-danger" *ngIf="agent.video == false" text-danger>block</i>
+                   <i *ngIf="agent.video === null" text-warning>-</i>
+                 </td>
+                 <td class="td-actions text-right">
+                  <div *ngIf="!agent.is_active" class="">
+                       <!-- Web MTR Button -->
+                       <a matTooltip="Agent is offline" 
+                         matTooltipPosition="before" 
+                         matTooltipClass="tooltip-css" 
+                         class="waves-effect waves-light btn btn-light btn-sm  btn-link" 
+                         >
+                           <i class="material-icons left">network_cell</i>
+                       </a>
+
+                       <!-- Remote Desktop Button -->
+                       <a matTooltip="Agent is Offline" 
+                         matTooltipPosition="before" 
+                         matTooltipClass="tooltip-css" 
+                         class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                         >
+                           <i class="material-icons left">screen_share</i>
+                       </a>
+
+                       <popover-agent (onClick)="loadAgentProfile($event)"
+                       [data-agent-id]="agent.worker_id"
+                       [profile]="agent">
+                      </popover-agent>
+                      
+                       <popover-workstation [data-text]="''" 
+                         [data-agent]="agent"
+                         (onClick)="loadWorkstation($event)"
+                       ></popover-workstation>
+
+                        <!-- Threshold Button -->
+                        <a matTooltip="Agent is Offline" 
+                        matTooltipPosition="before" 
+                        matTooltipClass="tooltip-css" 
+                        class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                        >
+                          <i class="material-icons left">apps</i>
+                      </a>
+                  </div>
+
+                  <div *ngIf="agent.is_active" class="">
+                      <!-- Web MTR Button -->
+                       <a *ngIf="agent.is_active" matTooltip="Viewing WEB MTR" 
+                       matTooltipPosition="before" 
+                       matTooltipClass="tooltip-css" 
+                       class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                       target="_blank" [routerLink]="['/dashboard/mtr', agent.id ]">
+                         <i class="material-icons left">network_cell</i>
+                     </a>
+
+                     <!-- Remote Desktop Button -->
+                     <a *ngIf="agent.is_active" matTooltip="ZOHO Connect" 
+                       matTooltipPosition="before" 
+                       class="waves-effect waves-light btn btn-danger btn-sm btn-link" 
+                       target="_blank" [routerLink]="['/integrations/zoho']" 
+                       [queryParams]="{ state : agent.worker_id }">
+                         <i class="material-icons left">screen_share</i>
+                     </a>
+
+                     <!-- Agent Profile Button -->
+                     <!-- <a matTooltip="Agent Profile"  matTooltipPosition="before" 
+                      (click)="loadAgentProfile(agent.worker_id)"
+                      class="waves-effect waves-light btn btn-info btn-sm btn-link"  >
+                        <i class="material-icons left">account_box</i>
+                     </a> -->
+
+                     <!-- <popover-agent (onClick)="loadAgentProfile($event)"
+                       [data-agent-id]="agent.worker_id"
+                       [profile]="agent"
+                       >
+                     </popover-agent> -->
+
+                     <!-- Workstation Profile Button-->
+                     <!-- <popover-workstation [data-text]="''" 
+                       [data-agent]="agent"
+                       (onClick)="loadWorkstation($event)"
+                     ></popover-workstation> -->
+
+                     <!-- Application Monitoring Button : DISABLED -->
+                     <!-- <a *ngIf="!agent.has_threshold" matTooltip="Agent Applications" 
+                       matTooltipPosition="before" 
+                       (click)="loadAplicationMonitoring(agent)"
+                       class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                     >
+                         <i class="material-icons left">apps</i>
+                     </a> -->
+
+                     <!-- Application Monitoring Button  -->
+                     <!-- <a *ngIf="agent.has_threshold" matTooltip="Agent Applications" 
+                       (click)="loadAplicationMonitoring(agent)"
+                       matTooltipPosition="before" 
+                       class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                       matBadgeColor="accent"
+                       matBadge="!" >
+                         <i class="material-icons left">apps</i>
+                     </a> -->
+                  </div>
+                </td>
+                <td> </td>
+           </tr>
+       </tbody>
+    </table>
+</div>

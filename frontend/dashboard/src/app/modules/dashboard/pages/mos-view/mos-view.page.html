@@ -1,0 +1,193 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 14px;">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">insert_chart</i>
+                    </div>
+                    <dropdown [data-title]="breakdownField"
+                      [data-options]="breakdownOptions"
+                      [data-default]="['country']"
+                      data-type="SINGLE"
+                      (onChange)="onChangeBreakdown($event)"
+                    ></dropdown> 
+                  </div>
+                    <div class="card-body">
+                      <button mat-raised-button 
+                          [mdePopoverTriggerFor]="dropdownReportPopover" class="pre-wrap btn-sm btn btn-primary pull-right"
+                          mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                          <i class="material-icons">import_export</i> 
+                      </button>
+                      <div class="col-lg-3 float-right">
+                          <form class="navbar-form">
+                              <span class="bmd-form-group">
+                                  <div class="input-group no-border">
+                              
+                                      <input autocomplete="off" (keydown.enter)="searchValue()" (keyup)="searchEmptyValue()" type="text" [(ngModel)]="search_value"
+                                        [formControl]="searchBar" class="form-control" placeholder="Search...">
+                                      <button mat-raised-button (click)="onSearchIcon()"
+                                          class="btn btn-white btn-round btn-just-icon">
+                                          <i class="material-icons">search</i>
+                                          <div class="ripple-container"></div>
+                                      </button>
+                                      <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                                          aria-label="Clear" (click)="emptySearch()">
+                                          <mat-icon>close</mat-icon>
+                                      </button> 
+                                  </div>
+                              </span>
+                          </form>
+                      </div>
+                        <div class="table-responsive">
+                            
+                             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                             <table class="table  table-hover">
+                                  <thead class="text-primary">
+                                      <tr>
+                                        <th *ngFor="let header of TABLE_FIELDS" [ngClass]="header.class">
+                                          <!-- <sort-header [ngClass]="header.class"
+                                            [data-field]='header.field'
+                                            [data-name]='header.name'
+                                          [data-selected]="sortedField == header.field"
+                                          (onSort)="sortFlag($event)"
+                                          ></sort-header> -->
+                                          {{ header.name }}
+                                        </th>
+                                      </tr>
+                                  </thead>
+                                <tbody>
+                                  <ng-container *ngFor="let stats of accountStats">
+                                    <tr (click)="selectAccount(stats.account)" [ngClass]="{'table-info': stats.account == selectedAccount }">
+                                        <td class="text-left">{{ stats.account }} </td>
+                                        <td>{{ stats.connected }}</td>
+                                        <td class="{{ stats.avg_mos | mosRate }}">{{ stats.avg_mos | number : '1.2-2'}} </td>
+                                        <td>{{ stats.wired }} </td>
+                                        <td>{{ stats.wireless }}</td>
+                                        <td>{{ stats.wah }}</td>
+                                        <td>{{ stats.bm }}</td>
+                                        <td>{{ stats.vpn }}</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <!-- Location Breakdown -->
+                                    
+                                    <ng-container *ngIf="(selectedAccount == stats.account) && ( breakdownField == 'location') ">
+                                      <tr *ngFor="let locationBreakdown of locationStats[stats.account]"> 
+                                        <td class="text-left pl-5">{{ locationBreakdown.location }} </td>
+                                          <td>{{ locationBreakdown.connected }}</td>
+                                          <td class="{{ stats.avg_mos | mosRate }}">{{ locationBreakdown.avg_mos | number : '1.2-2'}} </td>
+                                          <td>{{ locationBreakdown.wired }} </td>
+                                          <td>{{ locationBreakdown.wireless }}</td>
+                                          <td>{{ locationBreakdown.wah }}</td>
+                                          <td>{{ locationBreakdown.bm }}</td>
+                                          <td>{{ locationBreakdown.vpn }}</td>
+                                          <td>0</td>
+                                      </tr>
+                                    </ng-container>
+                                    
+                                    
+
+                                    <!-- Country Breakdown -->
+                                    <ng-container *ngIf="(selectedAccount == stats.account) && ( breakdownField == 'country' )">
+                                      
+                                      <ng-container *ngFor="let countryBreakdown of countryStats[stats.account]">
+                                        <tr (click)="selectCountry( countryBreakdown.country )" [ngClass]="{'table-secondary': selectedCountry == countryBreakdown.country}"> 
+                                          <td class="text-left pl-5">{{ countryBreakdown.country }} </td>
+                                          <td>{{ countryBreakdown.connected }}</td>
+                                          <td class="{{ countryBreakdown.avg_mos | mosRate }}">{{ countryBreakdown.avg_mos | number : '1.2-2'}} </td>
+                                          <td>{{ countryBreakdown.wired }} </td>
+                                          <td>{{ countryBreakdown.wireless }}</td>
+                                          <td>{{ countryBreakdown.wah }}</td>
+                                          <td>{{ countryBreakdown.bm }}</td>
+                                          <td>{{ countryBreakdown.vpn }}</td>
+                                          <td>0</td>
+                                        </tr>
+
+                                        <ng-container *ngIf="(selectedCountry == countryBreakdown.country)  ">
+                                          <tr *ngFor="let tier2Item of detailedBreakdown[stats.account][countryBreakdown.country]" >
+                                            <td class="text-left pl-5"><span class="pl-5">{{ tier2Item['location'] }}</span></td>
+                                            <td>{{ tier2Item['connected'] }}</td>
+                                            <td class="{{ tier2Item['avg_mos'] | mosRate }}">{{ tier2Item['avg_mos'] | number : '1.2-2'}} </td>
+                                            <td>{{ tier2Item['wired'] }} </td>
+                                            <td>{{ tier2Item['wireless'] }}</td>
+                                            <td>{{ tier2Item['wah'] }}</td>
+                                            <td>{{ tier2Item['bm'] }}</td>
+                                            <td>{{ tier2Item['vpn'] }}</td>
+                                            <td>0</td>
+                                          </tr>
+                                        </ng-container>
+                                        
+
+                                        <!-- <tr *ngFor="let tier2Item of tier2Breakdown[countryBreakdown.country]">
+                                          <td class="text-left pl-5"><span class="pl-5">{{ tier2Item.location }}</span></td>
+                                          <td>{{ tier2Item.connected }}</td>
+                                          <td class="{{ stats.avg_mos | mosRate }}">{{ tier2Item.avg_mos | number : '1.2-2'}} </td>
+                                          <td>{{ tier2Item.wired }} </td>
+                                          <td>{{ tier2Item.wireless }}</td>
+                                          <td>{{ tier2Item.wah }}</td>
+                                          <td>{{ tier2Item.bm }}</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                        </tr> -->
+
+                                      </ng-container>
+                                      
+                                      
+
+                                      <!-- <tr>
+                                        <td>{{ tier2Breakdown| json }} </td>
+                                      </tr> -->
+                                    </ng-container>
+                                  </ng-container>
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <td class="text-left"><b>TOTAL</b> </td>
+                                    <td><b>{{ totalStats.connected }}</b></td>
+                                    <td class="{{ totalStats.avg_mos | mosRate }}"><b>{{ totalStats.avg_mos | number : '1.2-2'}}</b></td>
+                                    <td><b>{{ totalStats.wired }}</b></td>
+                                    <td><b>{{ totalStats.wireless }}</b></td>
+                                    <td><b>{{ totalStats.wah }}</b></td>
+                                    <td><b>{{ totalStats.bm }}</b></td>
+                                    <td><b>{{ totalStats.vpn }}</b></td>
+                                    <td><b>0</b></td>
+                                  </tr>
+                                </tfoot>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div><!--/.row-->
+        <mde-popover #dropdownReportPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true" [mdePopoverCloseOnClick]="true" mdePopoverTriggerOn="click">
+          <mat-card style="max-width: 300px">
+              <mat-card-content>
+              
+              <mat-nav-list>
+                <a mat-list-item *ngFor="let item of reportType" (click)="setReport(item.value)">
+                  {{ item.name }} 
+              </a>
+              </mat-nav-list>
+              </mat-card-content>
+          </mat-card>
+        </mde-popover>
+        <!-- <mat-paginator (page)="updateData($event)"
+          [length]="paginate.total"
+          [pageSize]="paginate.perPage"
+          [pageSizeOptions]="[10, 20, 30, 40, 50]">
+        </mat-paginator>
+
+        <div class="modal fade" id="connectedAgentsFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <popup-filter [data-filters]="filterOptions['filters']"
+            [data-fields]="filterOptions['fields']"
+            (onSearch)="search($event)"
+            (onReset)="reset()">
+          </popup-filter> 
+    <!-- </div> -->
+    <!--/.modal-->
+    </div>
+</div>
+

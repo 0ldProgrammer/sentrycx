@@ -1,0 +1,186 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">apps</i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="col-lg-12 d-flex justify-content-center">
+              <div class="form-group col-lg-8">
+                <form [formGroup]="reportForm">
+                    <!-- <div class="form-group">
+                      <div class="col-lg-2 float-left">
+                        <input formControlName="reportOption" value="detailed" class="form-check-input" type="radio" name="reportOption" id="flexRadioDefault1" >
+                        Detailed
+                      </div>
+                      <div class="col-lg-3 float-left">
+                        <input formControlName="reportOption" value="summary"  class="form-check-input" type="radio" name="reportOption" id="flexRadioDefault1">
+                        Summary
+                      </div>
+                    </div> -->
+
+                  <div class="form-group" *ngIf="reportType">
+                    <report-type-autocomplete data-title="Select Report Type"
+                      data-key="id"
+                      [data-options]="reportType"
+                      [data-init]="reportForm.controls['reportType'].value"
+                      (onChange)="onReportChange($event)"
+                    >
+                    </report-type-autocomplete>
+
+                    <div *ngIf="downloaded && rf.reportTypes.errors?.required"  class="text-danger">
+                      Report Type is required.
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          [matDatepicker]="startDatePicker"
+                          formControlName="startDate"
+                          placeholder="Start Date"
+                          autocomplete="off"
+                          (click)="startDatePicker.open()"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="startDatePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </mat-form-field>
+                      <div *ngIf="downloaded && rf.startDate.errors?.required"  class="text-danger">
+                        Start Date is required.
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          [matDatepicker]="endDatePicker"
+                          formControlName="endDate"
+                          placeholder="End Date"
+                          autocomplete="off"
+                          (click)="endDatePicker.open()"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="endDatePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #endDatePicker></mat-datepicker>
+                      </mat-form-field>
+
+                      <div *ngIf="downloaded && rf.endDate.errors?.required"  class="text-danger">
+                        End Date is required.
+                      </div>
+                    </div>
+                  </div>
+                               
+                  <div class="form-group">
+                    <select-autocomplete 
+                      data-title="Select an Account"
+                      [data-options]="selectedAccount"
+                      [data-init]="reportForm.controls['selectedAccount'].value"
+                      (onChange)="onAccountChange($event)"
+                    >
+                    </select-autocomplete>
+                  </div>
+                  <div *ngIf="locationSelect" class="form-group">
+                    <location-autocomplete 
+                      data-title="Select a Location"
+                      [data-options]="locationSelect"
+                      [data-init]="reportForm.controls['locationSelect'].value"
+                      (onChange)="onLocationChange($event)"
+                    >
+                    </location-autocomplete>
+                  </div>
+                  <div class="form-group" *ngIf="!locationSelect">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Select a Location" type="text">
+                    </mat-form-field>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <mat-select
+                          placeholder="Select Option"
+                          formControlName="selectedOption"
+                          name="selectedOption"
+                        >
+                          <mat-option value=">">Greater Than</mat-option>
+                          <mat-option value="<">Less Than</mat-option>
+                          <mat-option value=">=">Greater Than or Equal To</mat-option>
+                          <mat-option value="<=">Less Than or Equal To</mat-option>
+                          <mat-option value="=">Equals</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div> 
+
+                    <div class="col-lg-6" *ngIf="!thresholdSelect">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Threshold" type="text">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6" *ngIf="thresholdSelect">
+                      <threshold-autocomplete data-title="Select a Threshold"
+                        data-key="id"
+                        [data-options]="thresholdSelect"
+                        [data-init]="reportForm.controls['thresholdSelect'].value"
+                        (onChange)="onThresholdChange($event)"
+                      >
+                      </threshold-autocomplete>
+                    </div>
+                  </div>   
+
+                    <mat-form-field>
+                      <mat-select
+                        placeholder="Select Connection"
+                        formControlName="selectedConnection"
+                        name="selectedConnection"
+                      >
+                        <mat-option value="wired">Wired</mat-option>
+                        <mat-option value="wireless">Wireless</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <mat-select
+                            placeholder="Select an Agent"
+                            formControlName="selectedAgent"
+                            name="selectedAgent"
+                          >
+                            <mat-option value="b&m">B&M</mat-option>
+                            <mat-option value="wah">WAH</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6">
+                          <mat-form-field class="example-full-width">
+                            <input
+                              matInput
+                              formControlName="selectedVLAN"
+                              placeholder="Enter a VLAN"
+                              autocomplete="off"
+                            />
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+                    <button #downloadButton data-dismiss="modal" (click)="downloadReport(reportForm)" mat-raised-button class="btn btn-success float-right"><i class="material-icons">download</i>DOWNLOAD REPORT</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

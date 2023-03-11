@@ -1,0 +1,129 @@
+<div class="modal-header ">
+    <div class="card-icon">
+        <i class="material-icons">apps</i>
+    </div>
+    <div class="dropdown">
+                            
+        <h4 class="modal-title" data-toggle="dropdown" class="dropdown-toggle" id="modal-basic-title"> 
+            {{ selectedApp | extract:'application':'Select Application'  }} 
+            <b class="caret"></b> </h4>
+        <ul class="dropdown-menu">
+            <li class="dropdown-header">Select Applications</li>
+            <li *ngFor="let app of automaticApplicationStatus; let i = index;" (click)="setApp(automaticApplicationStatus, i)"
+                [hidden]="type == 'MANUAL'">
+                <a type="button">{{ app.application }}</a>
+            </li>
+            <li *ngFor="let app of manualApplicationStatus; let i = index;" (click)="setApp(manualApplicationStatus, i)"
+            [hidden]="type == 'AUTO'">
+                <a type="button">{{ app.application }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="togglebutton">
+        <label>
+          <input type="checkbox" checked="" (click)="setType()" />
+          <span class="toggle"></span>
+            Threshold
+        </label>
+      </div>
+    
+    <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="dialogRef.close()">
+        <i class="material-icons">clear</i>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="card-body container">
+        <div class="row">
+            
+            <h4 class="text-center col-12 "> Application Statistics - {{ agentName }} </h4>
+            <div *ngIf="!selectedApp" class="col-12 text-center" >
+                <div class="card-icon">
+                    <h2>
+                        <i class="material-icons icon-placeholder">apps</i> <br />
+                        Please Select Application
+                    </h2>
+                    
+                </div>
+            </div>
+            <mat-tab-group *ngIf="selectedApp" mat-align-tabs="start" class="col-12">
+                <mat-tab *ngFor="let item of menu" label="{{item.name}}">
+                    <div class="col-lg-6 cards">
+                        <div class="card card-pricing card-plain">
+                          <div class="card-body">
+                            <h6 class="card-title">30 minutes ago</h6>
+                            <!-- <h3 class="card-title">{{ selectedApp.application }}</h3> -->
+                            <p class="card-description pre-wrap" [innerHTML]="selectedApp[item.ref]"></p>
+                          </div>
+                        </div>
+                      </div>
+            
+                    <div class="col-lg-6 cards">
+                        <div class="card card-pricing card-raised">
+                        <div class="card-body">
+                            <h6 class="card-title">Current </h6>
+                            <!-- <h3 class="card-title">{{ selectedApp.application }}</h3> -->
+                            <p class="card-description pre-wrap" [innerHTML]="selectedApp[item.id]"></p>
+                        </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <mat-tab label="RAM/Memory Usage">
+                    <div class="col-lg-12 cards">
+                        <div class="card card-pricing card-plain">
+                            <h6 class="card-title">Disk/Memory</h6>
+
+                            <form method="#" action="#">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput type="text" placeholder="RAM" [attr.value]="selectedApp['ram']" disabled>
+                                </mat-form-field>
+
+                                <mat-form-field class="example-full-width">
+                                    <input matInput type="text" placeholder="Memory Usage" [attr.value]="selectedApp['memory']" disabled>
+                                </mat-form-field>
+
+                                <h6 class="card-title">Disk Drive </h6>
+                                <p class="card-description pre-wrap" [innerHTML]="selectedApp['disk_drive']"></p>
+                            </form>
+                        </div>
+                    </div>
+                </mat-tab>
+
+              </mat-tab-group>
+          <!--/.col-md-4-->
+        </div><!--/.row-->
+    </div><!--/.card-body.container-->
+    <div class="card-footer">
+        <!-- <h</h4> -->
+        
+        <div class="row">
+            <label class="col-sm-3 col-form-label">Extract Application Statistics</label>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-md-8">
+                        <mat-form-field class="example-full-width">
+                            <mat-select [formControl]="extractApp" name="app-host">
+                                <mat-option *ngIf="agentApplications.length" value="">Select Application to Extract</mat-option>
+                                <mat-option *ngIf="!agentApplications.length" value="">No Applications Assigned</mat-option>
+                                <mat-option *ngFor="let app of agentApplications" [value]="app.url">
+                                    {{app.name}} - {{ app.url }}
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    
+                    
+                    <div class="col-md-4">
+                        <button mat-raised-button class="btn btn-primary btn-sm" (click)="extractAppStatus()" [disabled]="extractApp.invalid">
+                            <i class="material-icons">send</i>
+                            Extract 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        
+        </div><!--/.row-->
+    </div>
+</div><!--/.modal-container-->

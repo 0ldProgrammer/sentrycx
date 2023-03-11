@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-6" style="min-height: 50vh;">
+        <div class="mos-side-info col-md-12">
+            <form class="row" method="#" action="#">
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Agent Names" [attr.value]="agent" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Packet Loss Percentage" [attr.value]="packetLoss | number : '1.2-2'" disabled>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Average Latency" [attr.value]="averageLatency | number : '1.2-2'" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Jitter" [attr.value]="jitter" disabled>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="min-height: 50vh;">
+        <div class="mos-side-info col-md-12">
+            <form class="row" method="#" action="#">
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="MOS" [attr.value]="mos + ' (' + quality +')'" [ngClass]="mos | mosRate " disabled>
+                </mat-form-field>
+            </form>
+            <div class="row" [ngClass]="mos | mosRate ">
+                <i *ngFor="let e of [].constructor( starRating.full );" class="material-icons">star</i>
+                <i *ngFor="let e of [].constructor( starRating.half );" class="material-icons">star_half</i>
+                <i *ngFor="let e of [].constructor( starRating.empty );" class="material-icons">star_border</i>
+            </div>
+            <div class="row">
+                <table class="table table-striped table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th *ngFor="let item of EVALUATION_LIST" [ngClass]="item['class']">{{ item['quality'] }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let item of EVALUATION_LIST" [ngClass]="item['class']" class="text-center">{{ item['rating'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

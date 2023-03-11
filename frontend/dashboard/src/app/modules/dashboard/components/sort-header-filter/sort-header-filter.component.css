@@ -1,0 +1,25 @@
+.btn-label > i.material-icons {
+    font-size:  18px;
+}
+
+.dropdown i.material-icons {
+    font-size:  18px;
+}
+
+.dropdown-menu li > a {
+    padding: 0.625rem;
+    margin: 0;
+}
+
+.dropdown-menu  {
+    width: 200px !important;
+}
+
+.x-scroll-disabled {
+	overflow-x: hidden;
+}
+
+.pre-scrollable {
+    max-height: 200px;
+    overflow-y: scroll;
+}

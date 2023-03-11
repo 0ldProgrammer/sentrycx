@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  // "compileOnSave": true,
+  "compileOnSave": false,
+  "compilerOptions": {
+    // "traceResolution": true,
+    "moduleResolution": "node",
+    "outDir": "../out-tsc/app",
+    "types": [],
+    "baseUrl": "./",
+    "paths" : {
+      "@app/*" : ["app/core/*"],
+      "@layouts/*" : ["app/layouts/*"],
+      "@modules/*" : ["app/modules/*"],
+      "@shared/*"  : ["app/shared/*"],
+      "@env/*" : ["environments/*"]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

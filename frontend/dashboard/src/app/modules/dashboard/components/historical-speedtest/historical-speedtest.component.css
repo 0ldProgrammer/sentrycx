@@ -1,0 +1,11 @@
+
+.speedtest-side-info {
+    --offset: var(--space);
+    flex-grow: 1;
+    flex-basis: 300px;
+    align-self: start;
+    position: fixed;
+    width : 23%; 
+    top: var(--offset);
+  }
+

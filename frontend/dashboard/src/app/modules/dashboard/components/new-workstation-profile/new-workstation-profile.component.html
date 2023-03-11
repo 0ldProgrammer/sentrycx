@@ -1,0 +1,948 @@
+<div class="modal-header ">
+    <div class="card-icon">
+        
+        <h4 class="modal-title">
+            <i class="material-icons">apps</i>
+            Workstation Profile
+            
+        </h4>
+    </div>
+    <a mat-button class="close" data-dismiss="modal" aria-hidden="true" (click)="dialogRef.close()">
+        <i class="material-icons">clear</i>
+    </a>
+</div>
+
+<div class="modal-body">
+    <div class="main-content">
+        <div class="container-fluid">    
+            <div class="flex-1 text-center"> 
+                <div class="container mx-auto border-solid border-black p-2 rounded-lg">
+                    <div class="grid grid-cols-8 gap-x-1 gap-y-2 justify-evenly"> 
+                        
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Workstation Profile')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">monitor</i>
+                            </a>
+                            <p class="text-center text-sm">Profile</p>
+                        </div> 
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('History')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">history</i>
+                            </a>
+                            <p class="text-center text-sm">History </p>
+                        </div>  -->
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Ping')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">network_check</i>
+                            </a>
+                            <p class="text-center text-sm">Ping</p>
+                        </div>  -->
+
+                        <div class="w-auto h-auto">
+                          <a (click)="!!setTabs('Connections')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                              <i class="material-icons">network_check</i>
+                          </a>
+                          <p class="text-center text-sm">Connections</p>
+                        </div> 
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Throughput')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">trending_up</i>
+                            </a>
+                            <p class="text-center text-sm">Throughput</p>
+                        </div>  -->
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Telnet')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">signal_wifi_statusbar_null</i>
+                            </a>
+                            <p class="text-center text-sm">Telnet</p>
+                        </div>  -->
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Traceroute')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">compass_calibration</i>
+                            </a>
+                            <p class="text-center text-sm">Traceroute</p>
+                        </div> -->
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Host File')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">article</i>
+                            </a>
+                            <p class="text-center text-sm">Host File</p>
+                        </div>  
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('MTR')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">sensors</i>
+                            </a>
+                            <p class="text-center text-sm">MTR</p>
+                        </div>  -->
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Senventory')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">inventory</i>
+                            </a>
+                            <p class="text-center text-sm">Senventory</p>
+                        </div>  
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('PAC')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">settings_input_antenna</i>
+                            </a>
+                            <p class="text-center text-sm">PAC</p>
+                        </div> 
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Event Logs')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">note_alt</i>
+                            </a>
+                            <p class="text-center text-sm">Event Logs</p>
+                        </div>  -->
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('ZOHO Logs')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">text_snippet</i>
+                            </a>
+                            <p class="text-center text-sm">ZOHO Logs</p>
+                        </div>  
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Media Device')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">perm_media</i>
+                            </a>
+                            <p class="text-center text-sm">Media Device</p>
+                        </div> 
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setTabs('Historical')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">credit_score</i>
+                            </a>
+                            <p class="text-center text-sm">Historical</p>
+                        </div> 
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('MOS')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">credit_score</i>
+                            </a>
+                            <p class="text-center text-sm">MOS</p>
+                        </div> 
+
+                        <div class="w-auto h-auto">
+                            <a (click)="!!setPage('Speedtest')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">speed</i>
+                            </a>
+                            <p class="text-center text-sm">Speedtest</p>
+                        </div>  -->
+
+                        <!-- <div class="w-auto h-auto">
+                            <a (click)="!!setPage('SecureCX')" class="inline-flex items-center cursor-pointer justify-center w-14 h-14 transition-colors border border-gray-500 rounded-md hover:bg-zinc-300">
+                                <i class="material-icons">dvr</i>
+                            </a>
+                            <p class="text-center text-sm">SecureCX</p>
+                        </div>  -->
+                    </div> 
+                </div> 
+            </div> 
+        <hr/>
+        <mat-tab-group *ngIf="isSelectedTab('Historical')" mat-align-tabs="start">
+          <mat-tab label="Graph">
+            <one-view-graph 
+              [data-worker-id]="hardwareInfo['worker_id']"
+            >
+            </one-view-graph>
+          </mat-tab>
+
+          <!-- MOS -->
+          <mat-tab label="MOS">
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconMOSDetails>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconMOSDetails.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconMOSDetails.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  MOS Details Component-->
+                <div class="row">
+                  <div class="card-body container">
+                    <mos-details class="mos"
+                      [data-worker-id]="hardwareInfo['worker_id']"
+                      [data-agent]="agentName"
+                      [data-packet-loss]="hardwareInfo['packet_loss']"
+                      [data-average-latency]="hardwareInfo['average_latency']"
+                      [data-jitter]="hardwareInfo['jitter']"
+                      [data-mos]="hardwareInfo['mos']"
+                    ></mos-details>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <!-- MOS Charts and Grid Accordion-->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel hideToggle="true" #iconMOSChartsGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Charts and Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconMOSChartsGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconMOSChartsGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  MOS Charts and Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <div class="row">
+                    <div class="card-body container">
+                      <mos-charts-grid class="mos"
+                        [data-worker-id]="hardwareInfo['worker_id']"
+                        [data-agent]="agentName"
+                        [data-packet-loss]="hardwareInfo['packet_loss']"
+                        [data-average-latency]="hardwareInfo['average_latency']"
+                        [data-jitter]="hardwareInfo['jitter']"
+                        [data-mos]="hardwareInfo['mos']"
+                      ></mos-charts-grid>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Speedtest -->
+          <mat-tab label="Speedtest">
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconSpeedtestDetails>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconSpeedtestDetails.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconSpeedtestDetails.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+               <!-- Speedtest Details Component-->
+                <div class="row">
+                  <div class="card-body container">
+                    <speedtest-details class="mos"
+                    [data-worker-id]="hardwareInfo['worker_id']"
+                    [data-agent]="agentName"
+                    [data-isp]="hardwareInfo['ISP']"
+                    [data-upload-speed]="hardwareInfo['upload_speed']"
+                    [data-download-speed]="hardwareInfo['download_speed']"
+                    ></speedtest-details>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <!-- Speedtest Charts and Grid Accordion-->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel hideToggle="true" #iconSpeedtestChartsGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Charts and Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconSpeedtestChartsGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconSpeedtestChartsGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Speedtest Charts and Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <div class="row">
+                    <div class="card-body container">
+                      <speedtest-charts-grid class="mos"
+                      [data-worker-id]="hardwareInfo['worker_id']"
+                      [data-agent]="agentName"
+                      [data-isp]="hardwareInfo['ISP']"
+                      [data-upload-speed]="hardwareInfo['upload_speed']"
+                      [data-download-speed]="hardwareInfo['download_speed']"
+                      ></speedtest-charts-grid>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Workstation History -->
+          <mat-tab label="History">
+            <!-- Workstation History Grid Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconWorkstationHistoryGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconWorkstationHistoryGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconWorkstationHistoryGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  Workstation History Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <workstation-charts-grid [data-worker-id]="hardwareInfo['worker_id']"></workstation-charts-grid>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Event Logs -->
+          <mat-tab label="Event">
+            <!-- Event Logs Grid Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconEventGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconEventGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconEventGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  Event Logs Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <div class="row">
+                    <div class="card-body container">
+                      <form [formGroup]="eventLogForm">
+                        <div class="row">
+                            <div class="col-sm-10">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput [matDatepicker]="startDatePicker"
+                                        formControlName="startDate"
+                                        placeholder="Start Date" 
+                                        autocomplete="off"
+                                        (click)="startDatePicker.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #startDatePicker></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput [matDatepicker]="endDatePicker" 
+                                        formControlName="endDate"
+                                        placeholder="End Date" 
+                                        autocomplete="off"
+                                        (click)="endDatePicker.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #endDatePicker></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width">
+                                    <mat-select placeholder="Log Type" formControlName="type">
+                                        <mat-option value="application">Application</mat-option>
+                                        <mat-option value="security">Security</mat-option>
+                                        <mat-option value="system">System</mat-option>
+                                      </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                    <input matInput type="text" placeholder="Keyword" formControlName="keyword" autocomplete="off">
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button *ngIf="hardwareInfo.is_active" [ngClass]="{ 'disabled' : eventLogForm.invalid  }"  mat-raised-button (click)="extractLog()" class="btn btn-primary btn-sm">Extract Log</button>
+                                <button *ngIf="!hardwareInfo.is_active"  disabled mat-raised-button class="btn btn-secondary btn-sm">Agent is Offline</button>
+                            </div>
+                          </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                    <thead class="text-primary">
+                                        <tr>
+                                          <th>Type</th>
+                                          <th>Keyword</th>
+                                          <th>Date Start</th>
+                                          <th>Date End</th>
+                                          <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+                                      <tr *ngIf="eventLogs.length == 0 ">
+                                        <td colspan="5" class="text-center">No logs extracted yet</td>
+                                      </tr>
+                                      <tr *ngFor="let eventLog of eventLogs">
+                                        <td>{{ getLogDetails(eventLog, 'type') | titlecase }}</td>
+                                        <td>{{ getLogDetails(eventLog, 'keyword')}}</td>
+                                        <td>{{ getLogDetails(eventLog, 'startDate') }}</td>
+                                        <td>{{ getLogDetails(eventLog, 'endDate') }}</td>
+                                        <td>
+                                            
+                                            <a *ngIf="eventLog.includes('.log')" target="_blank" 
+                                                matTooltip="Download" 
+                                                mat-raised-button 
+                                                class="btn btn-danger btn-sm"
+                                                (click)="downloadLog(eventLog)"
+                                                >
+                                                <i class="material-icons">download</i>
+                                            </a>
+              
+                                            <mat-progress-spinner *ngIf="eventLog.includes('.tmp')"
+                                               color="primary" diameter="18"
+                                               mode="indeterminate">
+                                            </mat-progress-spinner>
+                                        </td>
+                                      </tr>
+                                  </tbody>
+                            </table>
+              
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Secure CX -->
+          <mat-tab label="Secure CX">
+            <!-- Secure CX Grid Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconSecureCXGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconSecureCXGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconSecureCXGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  Secure CX Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <div class="row">
+                    <div class="card-body container">
+                        <securecx-monitoring-grid
+                        [data-worker-id]="hardwareInfo['worker_id']"
+                        [data-agent]="agentName"
+                        [data-packet-loss]="hardwareInfo['packet_loss']"
+                        [data-average-latency]="hardwareInfo['average_latency']"
+                        [data-jitter]="hardwareInfo['jitter']"
+                        [data-mos]="hardwareInfo['mos']"
+                        ></securecx-monitoring-grid>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+                          
+        </mat-tab-group>
+
+        <mat-tab-group *ngIf="isSelectedTab('Connections')" mat-align-tabs="start">
+
+          <!-- Ping -->
+          <mat-tab label="Ping">
+            <!-- Ping Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconPing>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconPing.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconPing.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Ping Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 300px;">
+                    <form method="#" action="#" style="max-width:720px;">
+                        <ping
+                            [data-worker-id]="hardwareInfo['worker_id']"
+                            [data-agent]="agentName"
+                        >
+                        </ping>
+                    </form>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Throughput -->
+          <mat-tab label="Throughput">
+            <!-- Throughput Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconThroughput>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconThroughput.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconThroughput.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Throughput Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 300px;">
+                  <div class="row">
+                    <mat-form-field class="col-lg-6">
+                    <input matInput type="text" placeholder="Theoretical Throughput" value="{{hardwareInfo['Theoretical_Throughput']}}" disabled>
+                    </mat-form-field>
+                    <mat-form-field class="col-lg-6">
+                    <input matInput type="text" placeholder="Maximum Possible Throughput" [attr.value]="hardwareInfo['Maximum_Possible_Throughput']" disabled>
+                    </mat-form-field>
+                    <mat-form-field class="col-lg-6">
+                    <input matInput type="text" placeholder="Throughput Percentage" [attr.value]="hardwareInfo['Throughput_percentage']" disabled>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Telnet -->
+          <mat-tab label="Telnet">
+            <!-- Telnet Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconTelnet>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconTelnet.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconTelnet.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Telnet Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 300px;">
+                  <div class="row">
+                    <div class="col-lg-6 cards">
+                        <div class="card card-pricing card-plain">
+                            <div class="card-body">
+                                <h3 class="card-title">Telnet 80</h3>
+                                <p class="card-description pre-wrap" [innerHTML]="hardwareInfo['Telnet80']">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 cards">
+                        <div class="card card-pricing card-raised">
+                            <div class="card-body">
+                                <h3 class="card-title">Telnet 443</h3>
+                                <p class="card-description pre-wrap" [innerHTML]="hardwareInfo['Telnet443']">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- Traceroute -->
+          <mat-tab label="Traceroute">
+            <!-- Traceroute Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconTraceroute>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Details</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconTraceroute.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconTraceroute.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- Traceroute Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 300px;">
+                  <form method="#" action="#" style="max-width:720px;">
+                      <trace
+                          [data-worker-id]="hardwareInfo['worker_id']"
+                          [data-agent]="agentName"
+                      >
+                      </trace>
+                  </form>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+
+          <!-- MTR -->
+          <mat-tab label="MTR">
+            <!-- MTR Grid Accordion -->
+            <mat-accordion class="menu-headers-align" multi>
+              <mat-expansion-panel expanded="true" hideToggle="true" #iconMTRGrid>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Grid</b>
+                  </mat-panel-title>
+                  <mat-panel-description class="right-aligned">
+                    <mat-icon *ngIf="iconMTRGrid.expanded">keyboard_arrow_up</mat-icon>
+                    <mat-icon *ngIf="!iconMTRGrid.expanded">keyboard_arrow_down</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!--  MTR Grid Component-->
+                <div style="overflow-y: auto; overflow-x: hidden; height: 250px;">
+                  <div class="row">
+                      <div class="col-lg-12 cards">
+                          <div class="card card-pricing card-plain">
+                            <div class="card-body mtr-table">
+                              <h3 class="card-title">{{ hardwareInfo['selected_host'] }}</h3>
+                              <p *ngIf="hardwareInfo['mtr']" class="card-description pre-wrap" [innerHTML]="hardwareInfo['mtr']"></p>
+                              <p *ngIf="!hardwareInfo['mtr']" class="card-description text-align">No MTR recorded for this issue/agent.</p>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-tab>
+          
+        </mat-tab-group>
+
+          <mat-accordion *ngIf="subPage" class="menu-headers-align" multi>
+            <mat-expansion-panel expanded="true">
+              <mat-expansion-panel-header> <!--[collapsedHeight]="'20px'" [expandedHeight]="'20px'" <-- properties that adjust height of mat-expansion-panel-header tag-->
+                <mat-panel-title>
+                  <b>{{ subPage }}</b>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+            
+            <!-- <div class="relative min-h-screen md:flex" -->
+            <div class="" style="overflow-y: auto; height: 400px; margin-left: 40px; margin-top: 15px;">
+                <!-- <div class="sidebar bg-gray-500 w-screen h-screen -translate-x-full group-hover:left-0 transition duration-200 ease-in-out"> -->
+                    
+                        <!-- Workstation Profile -->
+                        <div>
+                            <div *ngIf="isSelected('Workstation Profile')">
+                                <historical-workstation-profile 
+                                    [data-agent-name]="agentName" 
+                                    [data-profile]="hardwareInfo" 
+                                    [data-speedtest]="speedtest"
+                                    [data-historical]="true">
+                                </historical-workstation-profile>
+                            </div>
+                        </div>
+
+                        <!-- HOST FILE -->
+                        <div class="row" *ngIf="isSelected('Host File')">
+                            <div class="col-lg-12 cards">
+                                <div class="card card-pricing card-plain">
+                                  <div class="card-body">
+                                    <!-- <hostfile-per-workstation></hostfile-per-workstation> -->
+                                    <!-- <p class="card-description pre-wrap" [innerHTML]="hardwareInfo['host_file']"> -->
+                                    
+                                    <hostfile-per-workstation 
+                                      [data-hostfile]="hardwareInfo['host_file']"
+                                      [data-worker-id]="hardwareInfo['worker_id']">
+                                    </hostfile-per-workstation>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Senventory -->
+                        <div class="row" *ngIf="isSelected('Senventory') && lezap">
+                            <div class="card-body container">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <ul class="nav nav-pills nav-pills-rose flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a *ngFor="let propertyName of lezapIndex; let i = index;" [ngClass]="{'active' : (i ==0 ) }" class="nav-link" data-toggle="tab" href="#lezap-{{ propertyName }}" role="tablist">
+                                                {{ lezapList[propertyName] }}
+                                            </a>
+                                          </li>
+                                          <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#lezap-required-apps" role="tablist">
+                                                Required Apps
+                                            </a>
+                                          </li>
+                                    </ul>
+                                  </div>
+                                  <div class="col-md-8">
+                                    <div class="tab-content">
+                                      <div *ngFor="let propertyName of lezapIndex; let i = index;" [ngClass]="{'active' : (i ==0 ) }" class="tab-pane pre-wrap" id="lezap-{{ propertyName }}" [innerHTML]="lezap[propertyName]"> 
+                                        {{ propertyName }}
+                                      </div>
+                                      <div  class="tab-pane pre-wrap" id="lezap-required-apps"> 
+                                        <div *ngFor="let app of appsToCheck">
+                                            <p *ngIf="!isInstalled(app)"><span style="vertical-align: middle;" class="material-icons">clear</span> {{ app }} is not installed</p>  
+                                        </div>
+                                        <p *ngIf="haveRequiredApps()"> 
+                                            <i class="cil-check align-middle">
+                                                <span class="material-icons">done</span> 
+                                                    Necessary Applications have been installed
+                                            </i> 
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PAC -->
+                        <div class="row" *ngIf="isSelected('PAC')">
+                            <div class="col-lg-12 cards">
+                                <div class="card card-pricing card-raised">
+                                  <div *ngIf="!hardwareInfo['pac_address']" class="card-body">
+                                    No Proxy has been setup on this workstation
+                                  </div>
+                      
+                                  <div *ngIf="hardwareInfo['pac_address']" class="card-body">
+                                      To view the raw Proxy Auto-Config script, click the button below
+                                      <div class="card-icon icon-rose">
+                                        <a [attr.href]="hardwareInfo['pac_address']" target="_blank"> <i class="material-icons">cloud_download</i></a>
+                                      </div>
+                      
+                                  </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ZOHO Logs -->
+                        <div class="row" *ngIf="isSelected('ZOHO Logs')">
+                            <div id="accordion" role="tablist" class="col-md-12">
+                              <div *ngIf="remoteSessionLogs.length == 0 " class="text-center">
+                                <h4 class="text-muted text-center">No Remote Sessions found.</h4>
+                              </div>
+                        
+                              <div class="card-collapse" *ngFor="let remoteSessionLog of remoteSessionLogs; let i = index;">
+                                <div class="card-header" role="tab" id="heading-{{remoteSessionLog['sessionID']}}">
+                                  <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapse-{{remoteSessionLog['sessionID']}}" aria-expanded="true" [attr.aria-controls]="'collapse-' + remoteSessionLog['sessionID']" class="collapsed">
+                                      {{ remoteSessionLog['session_title']  }}
+                                      <i class="material-icons">keyboard_arrow_up</i>
+                                    </a>
+                                  </h5>
+                                </div>
+                        
+                                
+                        
+                                <div id="collapse-{{remoteSessionLog['sessionID']}}" class="collapse" role="tabpanel" [attr.aria-labelledby]="'heading' + remoteSessionLog['sessionID']" data-parent="#accordion" >
+                                    <div class="card-body">
+                        
+                                     <div class="row">
+                                      <label class="col-sm-2 col-form-label">View Type</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['viewer_type'] }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Agent Name</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['agent_email'] }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Agent IP</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['agent_ipaddress'] }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Agent OS</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['agent_os']  }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">TOC  Name</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['display_name']  }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">TOC IP</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['viewer_ipaddress']  }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">TOC OS</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['viewer_os']  }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Session Type</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['session_type']  }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Start Time</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['start_time'] | date:'medium' }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                  
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">End Time</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['end_time'] | date:'medium' }} " />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Duration</label>
+                                      <div class="col-sm-9">
+                                        <mat-form-field class="example-full-width">
+                                          <input matInput type="text"disabled value="{{ remoteSessionLog['duration'] | date:'h:mm:ss' }}" />
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                        
+                                    <div class="row">
+                                      <label class="col-sm-2 col-form-label">Recording</label>
+                                      <div class="col-sm-9 col-form-label">
+                                        <a [attr.href]="'https://download.zoho.com/webdownload?x-service=assist&event-id='+ remoteSessionLog['tsid'] + '&x-cli-msg=rec'" target="_blank" >
+                                          Download Video 
+                                        </a>
+                                      </div>
+                                    </div>
+                        
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        <!-- MediaDevice -->
+                        <div class="row" *ngIf="isSelected('Media Device')">
+                            <div class="card-body container row">
+                              <div class="col-md-12 ml-auto mr-auto" *ngIf="!mediaDevices['remarks']">
+                                <h4 class="text-center">No test made for the workstation</h4>
+                              </div>
+                        
+                              <div class="col-md-12" *ngIf="mediaDevices['remarks']">
+                                <ul class="timeline timeline-simple">
+                                  <li class="timeline-inverted" *ngFor="let details of deviceRef" >
+                                      <div class="timeline-badge" [ngClass]="{ 'success' : mediaDevices[details['id']], 'danger' : !mediaDevices[details['id']] }">
+                                        <i class="material-icons">{{ details['icon'] }}</i>
+                                      </div>
+                                      <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <b>{{ details['name'] }} </b>
+                                            <span *ngIf="mediaDevices[details['id']]" class="badge badge-success"><b>READY</b></span>
+                                            <span *ngIf="!mediaDevices[details['id']]" class="badge badge-danger"><b>FAILED</b></span>
+                                        </div>
+                                        
+                                        <div class="timeline-body">
+                                            <mat-list>
+                                               <div class="row" *ngFor="let remarks of mediaDevices['remarks'][ details['id'] ]; let i = index; ">
+                                                  <mat-list-item class="my-1">{{ remarks }}</mat-list-item>
+                                                </div>
+                        
+                                               <mat-list-item *ngIf="!mediaDevices['remarks']">
+                                                <div class="col-md-10">No test made for the workstation </div>
+                                               </mat-list-item>
+                                            </mat-list>
+                                        </div>
+                                      </div>
+                                  </li>
+                                </ul>
+                              </div>
+                        
+                              <div class="col-md-12" *ngIf="mediaDevices">
+                                  <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="text-primary">
+                                            <tr>
+                                              <th>Site</th>
+                                              <th>
+                                                  
+                                                  <i class="material-icons">headset</i>   
+                                                </th>
+                                              <th>
+                                                  
+                                                  <i class="material-icons">mic</i>   
+                                              </th>
+                                              <th>
+                                                  
+                                                  <i class="material-icons" >camera_alt</i>   
+                                                </th>
+                                              <th></th>
+                                            </tr>
+                                        </thead>
+                                      <tbody>
+                        
+                                            <tr *ngIf="!(mediaDevices.remarks_per_sites | jsonParse)">
+                                                <td  colspan=5 class="text-center">No sites needed to check media devices.</td>
+                                            </tr>
+                        
+                                            <tr *ngFor="let site of (mediaDevices.remarks_per_sites | jsonParse)">
+                                              <th>
+                                                  {{ site.url }}
+                                                  <a [attr.href]="site.url" target="_blank" matTooltip="Open in new tab">
+                                                      <i class="material-icons">open_in_browser</i>
+                                                  </a>
+                                                  
+                                                </th>
+                                              <th>
+                                                <i class="material-icons" matTooltip="CHECKING...">more_horiz</i>   
+                                              </th>
+                                              <th>
+                                                    <i *ngIf="site.microphone == 'allow'" class="material-icons text-success" matTooltip="ALLOWED">check_circle</i>   
+                                                    <i *ngIf="site.microphone == 'block'" class="material-icons text-danger" matTooltip="BLOCKED">block</i>   
+                                                    <i *ngIf="site.microphone == 'ask'" class="material-icons text-warning" matTooltip="PROMPT">help_outline</i>   
+                                                    <i *ngIf="!site.microphone" class="material-icons" matTooltip="CHECKING...">more_horiz</i>   
+                                              </th>
+                                              <th>
+                                                  <i *ngIf="site.camera == 'allow'" class="material-icons text-success" matTooltip="ALLOWED">check_circle</i>   
+                                                    <i *ngIf="site.camera == 'block'" class="material-icons text-danger" matTooltip="BLOCKED">block</i>   
+                                                    <i *ngIf="site.camera == 'ask'" class="material-icons text-warning" matTooltip="PROMPT">help_outline</i>   
+                                                    <i *ngIf="!site.camera"class="material-icons" matTooltip="CHECKING...">more_horiz</i>   
+                                                </th>
+                                                <th *ngIf="!isSentryChromeInstalled"></th>
+                        
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</div>

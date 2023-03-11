@@ -1,0 +1,17 @@
+.progress-circular {
+    display: inline-block;
+}
+
+.progress-text {
+    float: right;
+    display: block;
+    top: 6px;
+    left: -27px;
+    position: relative;
+    font-size: 10px;
+}
+
+.mos {
+    min-width: 1024px;
+    display: block;
+}

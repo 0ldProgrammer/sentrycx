@@ -1,0 +1,13 @@
+#addApplicationbutton {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+  }
+
+  .mat-checkbox-label {
+    color: black;
+  }
+
+  .hide {
+    display:none;
+  }

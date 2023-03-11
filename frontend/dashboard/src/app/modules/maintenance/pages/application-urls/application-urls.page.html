@@ -1,0 +1,276 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">code</i>
+            </div>
+            <h4 class="card-title">Application URLs List</h4>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 offset-md-9">
+                <form class="navbar-form">
+                  <span class="bmd-form-group">
+                    <div class="input-group no-border">
+                      <input
+                        autocomplete="off"
+                        type="text"
+                        [(ngModel)]="search_value"
+                        [formControl]="filter"
+                        autocomplete="off"
+                        (keydown.enter)="searchValue()"
+                        (keyup)="searchEmptyValue()"
+                        class="form-control"
+                        placeholder="Search..."
+                      />
+                      <button
+                        mat-raised-button
+                        type="submit"
+                        class="btn btn-white btn-round btn-just-icon"
+                      >
+                        <i class="material-icons">search</i>
+                        <div class="ripple-container"></div>
+                      </button>
+                      <button
+                        mat-button
+                        *ngIf="search_value"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="emptySearch()"
+                      >
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+                  </span>
+                </form>
+              </div>
+              <div class="mt-2 col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead class="text-primary">
+                      <tr>
+                        <th>#</th>
+                        <th class="text-left">Application Name</th>
+                        <th class="text-left">Application Urls</th>
+                        <th class="text-left">Description</th>
+                        <th class="text-left">Account Name</th>
+                        <th class="text-left">Is Loaded</th>
+                        <th class="td-actions text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let application of applications; index as i">
+                        <td>{{i+1}}</td>
+                        <td class="text-left">{{application.name}}</td>
+                        <td class="text-left">{{application.url}}</td>
+                        <td class="text-left">{{application.description}}</td>
+                        <td>{{application.account}}</td>
+                        <td class="text-center">
+                          <mat-checkbox
+                            *ngIf="application.is_loaded"
+                            [checked]="true"
+                            [value]="application.id"
+                            (change)="onCheckboxChange($event, application)"
+                          >
+                          </mat-checkbox>
+                          <mat-checkbox
+                            *ngIf="!application.is_loaded"
+                            type="checkbox"
+                            [checked]="false"
+                            [value]="application.id"
+                            (change)="onCheckboxChange($event, application)"
+                            [disabled]="no_account"
+                          >
+                          </mat-checkbox>
+                        </td>
+                        <td class="td-actions text-center">
+                          <button
+                            mat-raised-button
+                            type="button"
+                            class="btn btn-link"
+                            data-toggle="modal"
+                            data-target="#addUpdateModal"
+                            (click)="showAccountForm('EDIT', application)"
+                            matTooltip="UPDATE"
+                            [matTooltipShowDelay]="1000"
+                          >
+                            <i class="material-icons">edit</i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <mat-paginator [length]="paginate.total" [pageSize]="paginate.perPage"
+                      (page)="pageChanged($event)">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="addApplicationsButton" class="float-right">
+            <button
+              mat-mini-fab
+              color="primary"
+              matTooltip="Add Application"
+              [matTooltipShowDelay]="1000"
+              (click)="addApplicationUrl('ADD')"
+              data-toggle="modal"
+              data-target="#addUpdateModal"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="addUpdateModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-notice">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="card-icon">
+                <i class="material-icons">code</i>
+              </div>
+              <h4 class="modal-title">{{app_desc}} Application</h4>
+              <button
+                mat-button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                <i class="material-icons">close</i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="AddUpdateForm">
+                <div class="form-group">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Application Name:</mat-label>
+                    <input
+                      autocomplete="off"
+                      type="text"
+                      matInput
+                      formControlName="name"
+                      class="form-control"
+                      id="name"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <div [hidden]="hide_code_error">
+                    <span class="sr-only">(error)</span>
+                    <div class="error-msg">Application Name is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Description:</mat-label>
+                    <input
+                      autocomplete="off"
+                      type="text"
+                      matInput
+                      formControlName="description"
+                      class="form-control"
+                      id="description"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <div [hidden]="hide_code_error">
+                    <span class="sr-only">(error)</span>
+                    <div class="error-msg">Description is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Application Url:</mat-label>
+                    <input
+                      autocomplete="off"
+                      type="text"
+                      matInput
+                      formControlName="url"
+                      class="form-control"
+                      id="url"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <div [hidden]="hide_code_error">
+                    <span class="sr-only">(error)</span>
+                    <div class="error-msg">Url is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>IP Address:</mat-label>
+                    <input
+                      autocomplete="off"
+                      type="text"
+                      matInput
+                      formControlName="ip"
+                      class="form-control"
+                      id="ip"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <div [hidden]="hide_code_error">
+                    <span class="sr-only">(error)</span>
+                    <div class="error-msg">IP Address is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select
+                      placeholder="Select Account"
+                      name="account"
+                      (selectionChange)="getValues($event)"
+                      [(ngModel)] = "selectedAccount" [ngModelOptions]="{standalone: true}"
+                    >
+                      <mat-option
+                        *ngFor="let account of accounts"
+                        [value]="account.id+'_'+account.name"
+                      >
+                        {{ account.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </form>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+              <button
+                mat-raised-button
+                type="button"
+                class="btn btn-success btn-sm btn-link"
+                (click)="onSubmitApplication()"
+                data-dismiss="modal"
+              >
+                Submit
+                <div class="ripple-container"></div>
+              </button>
+              <button
+                mat-raised-button
+                type="button"
+                #closebutton
+                class="btn btn-danger btn-sm btn-link"
+                data-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+/vendor
+/vendor/*
+/.idea
+.env
+.env.backup
+Homestead.json
+Homestead.yaml
+.phpunit.result.cache
+.DS_Store
+/public/excel/*.html
+/public/storage
+app/Modules/WorkstationModule/Controllers/DebugController.php

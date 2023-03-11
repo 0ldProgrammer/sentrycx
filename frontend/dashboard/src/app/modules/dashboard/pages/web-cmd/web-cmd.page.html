@@ -1,0 +1,67 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- <h1>Web MTR Page</h1> -->
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+                <i class="material-icons left">tab</i>
+            </div> 
+            <h4 class="card-title ">Web CMD/Powershell</h4>
+
+            
+          </div><!-- /.card-header-->
+
+
+          <div class="card-body ">
+            <dropdown [data-title]="'Type:'+ terminalType"
+              [data-options]="terminalTypes"
+              [data-default]="['CMD']"
+              data-type="SINGLE"
+              (onChange)="onChangeCommandType($event)"
+            ></dropdown> 
+
+            <div class="card card-pricing card-raised" style="height: 50vh;">
+              <div *ngIf="terminalType == 'CMD' " class="card-body cmd" style="overflow: scroll; max-height: 50vh;">
+                <ng-container *ngFor="let result of CMDResults">
+                    <p class="card-description pre-wrap hostfile-display"><b>Command : {{ result.command }}</b> </p>
+                    <p class="card-description pre-wrap hostfile-display"  [innerHtml]="result.response"></p>
+                </ng-container>
+              </div>
+
+              <div *ngIf="terminalType == 'Powershell' " class="card-body powershell" style="overflow: scroll; max-height: 50vh;">
+                <ng-container *ngFor="let result of powershellResults">
+                    <p class="card-description pre-wrap hostfile-display"><b>Command : {{ result.command }}</b> </p>
+                    <p class="card-description pre-wrap hostfile-display"  [innerHtml]="result.response"></p>
+                </ng-container>
+              </div>
+
+            </div>
+          </div><!--/.card-body-->
+
+          <div class="card-footer">
+            <form [formGroup]="formGroup" class="container">
+              <div class="row">
+                <label class="col-sm-1 col-form-label">User : </label>
+                <div class="col-sm-11">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <mat-form-field class="example-full-width">
+                        <input matInput type="text" placeholder="Enter command" autocomplete="off" formControlName="command">
+                        
+                      </mat-form-field>
+                    </div><!--/.col-md-8-->
+                    <div class="col-md-2">
+                        <button (click)="executeCommand()" [ngClass]="{'disabled': formGroup.invalid }" mat-raised-button class="btn btn-primary">Execute</button>
+                    </div><!--/.col-md-2-->
+                  </div><!--/.row-->
+                </div><!--/.col-sm-11-->
+              </div><!--/.row-->
+            </form>
+            
+          </div><!--/.card-footer-->
+        </div><!--/.card-->
+      </div><!--/col-md-12-->
+    </div><!--/.container-fluid-->
+</div><!--/.main-content-->

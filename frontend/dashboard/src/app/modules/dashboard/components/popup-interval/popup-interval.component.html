@@ -1,0 +1,52 @@
+
+<div class="">
+    <div class="modal-header ">
+        <h4 class="modal-title" id="modal-basic-title">30 Minutes Interval Report</h4>
+        <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="close()">
+            <i class="material-icons">clear</i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <!-- <mat-form-field appearance="fill" class="my-1">
+            <mat-label>Filters</mat-label>
+            <mat-select [formControl]="selectedFilter" multiple>
+                <mat-option *ngFor="let filterName of filterRef" [value]="filterName">{{filterName}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        <form [formGroup]="intervalForm"  (ngSubmit)="submitBtn._elementRef.nativeElement.click()" >
+            
+            <mat-form-field class="example-full-width my-1">
+                <mat-label>Date Start</mat-label>
+                <input matInput [matDatepicker]="datePickerStart"
+                        formControlName="date_start"
+                        autocomplete="off"
+                        (click)="datePickerStart.open()"
+                >
+                <mat-datepicker #datePickerStart></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width my-1">
+                <mat-label>Date End</mat-label>
+                <input matInput [matDatepicker]="datePickerEnd"
+                        formControlName="date_end"
+                        autocomplete="off"
+                        (click)="datePickerEnd.open()"
+                >
+                <mat-datepicker #datePickerEnd></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width my-1">
+                <mat-label>Report Type</mat-label>
+                <mat-select formControlName="type" >
+                    <mat-option value="SUMMARY" selected>Summary</mat-option>
+                    <mat-option value="DETAILS">Details</mat-option>
+                </mat-select>
+
+            </mat-form-field>
+        </form>
+
+        <button #submitBtn data-dismiss="modal" disabled="{{ intervalForm.invalid }}" (click)="download()" mat-raised-button class="btn btn-primary"><i class="material-icons">download</i>Download</button>
+        <button data-dismiss="modal" (click)="close()" mat-raised-button class="btn btn-default close"><i class="material-icons">close</i>Cancel</button>
+
+    </div><!--/.modal-body-->
+</div>

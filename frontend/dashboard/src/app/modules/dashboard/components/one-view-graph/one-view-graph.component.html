@@ -1,0 +1,38 @@
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="col-md-4">
+        <a href="" (click)="timerRange(0);$event.preventDefault()" style="margin-left: 3px; margin-right: 3px;">
+            Now
+        </a>
+        <a href="" (click)="timerRange(4);$event.preventDefault()"style="margin-left: 3px; margin-right: 3px;">
+            4 hr
+        </a>
+        <a href="" (click)="timerRange(8);$event.preventDefault()"style="margin-left: 3px; margin-right: 3px;">
+            8 hr
+        </a>
+    </div>
+    <div class="col-md-8" style="font-size: smaller;">
+        <span>
+            {{ currentDate }}
+        </span>
+    </div>
+</div>
+<div id="container" style="overflow-y: auto; height:290px; overflow-x: hidden;">
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="jitterChart" width=300 height=300></canvas>   
+        </div>
+        <div class="col-md-6">
+            <canvas id="averageLatencyChart" width=300 height=300></canvas>   
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <canvas id="packetLossChart" width=300 height=300></canvas>   
+        </div>
+        <div class="col-md-6">
+            <canvas id="mosChart" width=300 height=300></canvas>   
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,24 @@
+<i *ngIf="hasThreshold" class="material-icons text-danger font-sm"
+    [mdePopoverTriggerFor]="redDotPopover" 
+    #popoverTrigger="mdePopoverTrigger"
+>brightness_1</i>
+
+<mde-popover #redDotPopover="mdePopover"
+             [mdePopoverOverlapTrigger]="true"
+             [mdePopoverEnterDelay]="0"
+             [mdePopoverCloseOnClick]="false"
+             [mdePopoverOffsetX]="popoverPositionX"
+             [mdePopoverOffsetY]="popoverPositionY"
+             [mdePopoverArrowOffsetX]="100"
+             mdePopoverArrowColor="#FFFFFF"
+             mdePopoverScrollStrategy="close">
+    <mat-card style="max-width: 960px;" class="container">
+        <mat-card-title>
+            Workstation Notice
+        </mat-card-title>
+        <!-- <mat-card-content></mat-card-content> -->
+        <ul>
+            <li *ngFor="let message of messages">{{ message }} </li>
+        </ul>
+    </mat-card>
+</mde-popover>

@@ -1,0 +1,27 @@
+<div class="dropdown" style="cursor: pointer;">
+    <span data-toggle="dropdown" [class.text-info]="selected">
+      <i *ngIf="!selected" class="material-icons">swap_vert</i> 
+      <i *ngIf="direction=='ASC' && selected" class="material-icons">arrow_upward</i> 
+      <i *ngIf="direction=='DESC' && selected" class="material-icons">arrow_downward</i> 
+      {{ name }} 
+    </span>
+    <ul class="dropdown-menu dropdown-menu-top">
+      <li class="dropdown-header">Sort By</li>
+      <li>
+          <button mat-raised-button class="btn btn-link btn-primary" (click)="sort('ASC')">
+            <span class="btn-label">
+              <i class="material-icons">arrow_upward</i>
+            </span>
+            <b>ASCENDING</b>
+          </button>
+      </li>
+      <li>
+        <button mat-raised-button class="btn btn-link btn-primary" (click)="sort('DESC')">
+          <span class="btn-label">
+            <i class="material-icons">arrow_downward</i>
+          </span>
+          <b>DESCENDING</b>
+        </button>
+      </li>
+  </ul>
+</div>

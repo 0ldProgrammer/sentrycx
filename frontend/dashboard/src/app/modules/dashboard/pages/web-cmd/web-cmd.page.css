@@ -1,0 +1,11 @@
+.card-body.cmd {
+    background-color: #000;
+}
+
+.card-body.powershell {
+    background-color: #022258;
+}
+
+.card-body p {
+    color : #f1f1f1;
+}

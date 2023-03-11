@@ -1,0 +1,11 @@
+<form method="#" action="#" style="width:450px">
+    <div class="row">
+        <mat-form-field *ngFor="let field of profileFields; let i = index;" class="example-full-width col-sm-6">
+            <input matInput type="text" placeholder="{{field.name}}" [attr.value]="field.value | default:'-' " disabled>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width col-sm-6">
+            <input matInput type="text" placeholder="MOS" [attr.value]="hardwareInfo['mos'] | number : '1.2-2'" [ngClass]="hardwareInfo['mos'] | mosRate " disabled>
+        </mat-form-field>
+    </div>
+</form> 

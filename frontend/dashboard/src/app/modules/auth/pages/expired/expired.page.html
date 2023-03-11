@@ -1,0 +1,68 @@
+
+<div class="wrapper wrapper-full-page">
+  <div class="page-header register-page header-filter" filter-color="black" style="background-image: url('./assets/img/register.jpg'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 ml-auto mr-auto">
+          <div class="card card-signup">
+              <!-- TODO : Convert this into shared component -->
+            <h2 class="card-title text-center" style="font-family: Arial, Helvetica, sans-serif;">
+              SentryCX™
+            </h2>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-5 ml-auto">
+                  <div class="info info-horizontal">
+                    <div class="icon icon-rose">
+                      <i class="material-icons">timeline</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Flag Monitoring</h4>
+                      <p class="description">
+                        Notify and alert TOC Engineer if there's any issues and possible risks. Severity can be identified as Yellow, Amber and Red Flags.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-primary">
+                      <i class="material-icons">code</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Web MTR</h4>
+                      <p class="description">
+                          Allows TOC Engineers do remotely execute MTR to agent's station with their interactions. This includes ping and traceroute results to specific tools.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-info">
+                      <i class="material-icons">group</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Workstation Profile</h4>
+                      <p class="description">
+                        TOC Engineers have full visibility to check Agent's specifications, host file, OS Versions, IP address and other agent desktop's details.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 mr-auto">
+                  <form class="form" method="" action="">
+                    <div class="form-group has-default">
+                        <p class="">Your session has expired.You may login using Concentrix Single Sign-On credentials below.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                      <a (click)="redirectToAuth($event)" class="btn btn-primary btn-round mt-4">Sign in via Concentrix SSO</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

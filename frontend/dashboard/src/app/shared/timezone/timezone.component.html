@@ -1,0 +1,26 @@
+
+<div class="">
+    <div class="modal-header ">
+        <h4 class="modal-title" id="modal-basic-title">Set Timezone</h4>
+        <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="close()">
+            <i class="material-icons">clear</i>
+        </button>
+    </div>
+    <div class="modal-body ">
+
+        <form  [formGroup]="timezoneForm" (ngSubmit)="submitBtn._elementRef.nativeElement.click()" >
+            <mat-form-field class="example-full-width my-1">
+                <mat-label>Timezone</mat-label>
+                
+                <mat-select formControlName="timezone">
+                    <mat-option *ngFor="let timezone of timezoneList" [value]="timezone">
+                      {{ timezone }}
+                    </mat-option>
+                  </mat-select>
+            </mat-form-field>
+        </form>
+        <button #submitBtn data-dismiss="modal" (click)="save()" mat-raised-button class="btn btn-primary"><i class="material-icons">save</i>save</button>
+        <button data-dismiss="modal" (click)="close()" mat-raised-button class="btn btn-default"><i class="material-icons">close</i>Cancel</button>
+
+    </div><!--/.modal-body-->
+</div>

@@ -1,0 +1,27 @@
+<a [mdePopoverTriggerFor]="popover0" #popoverTrigger="mdePopoverTrigger"
+    (click)="clickHandle(agentID)"
+    class="waves-effect waves-light btn btn-primary btn-sm btn-link" >
+    <i class="material-icons left">account_box</i>
+</a>
+
+<mde-popover #popover0="mdePopover"
+             [mdePopoverOverlapTrigger]="true"
+             [mdePopoverCloseOnClick]="false"
+             [mdePopoverOffsetX]="popoverPositionX"
+             [mdePopoverOffsetY]="popoverPositionY"
+             [mdePopoverArrowOffsetX]="58"
+             mdePopoverArrowColor="#FFFFFF"
+             mdePopoverScrollStrategy="close">
+    <mat-card style="max-width: 960px;" class="container">
+        <mat-card-title>
+            Agent Profile
+        </mat-card-title>
+        <form method="#" action="#" style="width:500px">
+            <div class="row">
+                <mat-form-field *ngFor="let field of PROFILE_FIELDS; let i = index;" class="example-full-width col-sm-6">
+                    <input matInput type="text" placeholder="{{field.name}}" [attr.value]="profile[field.id]" disabled>
+                </mat-form-field>
+            </div>
+        </form> 
+    </mat-card>
+</mde-popover>

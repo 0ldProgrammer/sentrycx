@@ -1,0 +1,24 @@
+<mat-form-field class="location-chip-list">
+    <mat-label>{{ title }}</mat-label>
+    <mat-chip-list #chipLocationList aria-label="Autocomplete">
+
+      <mat-chip *ngFor="let selectedOption of selectedOptions">
+        {{ selectedOption }}
+        <mat-icon matChipRemove (click)="remove(selectedOption)">cancel</mat-icon>
+      </mat-chip>
+
+      <input [matChipInputFor]="chipLocationList" 
+        [formControl]="autoLocationCtrl" 
+        [matAutocomplete]="autoLocation"
+        [matChipInputFor]="chipLocationList"  
+        (matChipInputTokenEnd)="add($event)"
+        matInput
+        #autoLocationInput
+      />
+      </mat-chip-list>
+      <mat-autocomplete #autoLocation="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+</mat-form-field>

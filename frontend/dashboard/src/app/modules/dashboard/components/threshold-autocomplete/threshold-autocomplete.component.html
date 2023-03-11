@@ -1,0 +1,22 @@
+
+  <mat-form-field class="location-chip-list">
+      <mat-label>{{ title }}</mat-label>
+      <mat-chip-list #thresholdList aria-label="Autocomplete">
+  
+        <mat-chip *ngFor="let selectedOption of selectedOptions" [value]="selectedOption.id">
+          {{ selectedOption.threshold+' [ '+selectedOption.thres_name+'] '+(selectedOption.acnt_name?'- '+selectedOption.acnt_name:'') }}
+          <mat-icon matChipRemove (click)="remove(selectedOption)">cancel</mat-icon>
+        </mat-chip>
+  
+        <input [formControl]="autocompleteCtrl" [matAutocomplete]="threshold" [matChipInputFor]="thresholdList"  
+          (matChipInputTokenEnd)="add($event)"
+          matInput
+          #thresholdInput
+        >
+        </mat-chip-list>
+        <mat-autocomplete #threshold="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let site of filteredOptions | async" [value]="site">
+            {{ site.threshold +' [ '+site.thres_name+'] - '+(site.acnt_name?site.acnt_name:'')}}
+          </mat-option>
+        </mat-autocomplete>
+  </mat-form-field>

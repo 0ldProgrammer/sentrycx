@@ -1,0 +1,34 @@
+{
+  "name": "lapscx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "build": "npx electron-packager . --overwrite --icon=./AdminLaps.ico"
+  },
+  "build": {
+    "win": {
+      "target": "squirrel",
+      "icon": "build/AdminLapse.ico"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^14.0.1",
+    "electron-builder": "^22.11.7",
+    "electron-packager": "^15.4.0"
+  },
+  "dependencies": {
+    "activedirectory2": "^2.1.0",
+    "dotenv": "^10.0.0",
+    "electron-fetch": "^1.7.4",
+    "electron-log": "^4.4.1",
+    "ldapjs": "^2.3.1",
+    "node-powershell": "^4.0.0"
+  }
+}

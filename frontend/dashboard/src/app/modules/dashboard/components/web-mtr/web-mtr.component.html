@@ -1,0 +1,189 @@
+<div class="modal-header ">
+    <div class="card-icon">
+        
+        <h4 class="modal-title">
+            <i class="material-icons">network_cell</i>
+            Web MTR
+            
+        </h4>
+    </div>
+    <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="dialogRef.close()">
+        <i class="material-icons">clear</i>
+    </button>
+</div><!--/.modal-header-->
+
+<div class="modal-body" >
+    <div class="main-content" style="overflow-y: scroll; max-height:600px;">
+        <div class="container-fluid" style="padding-right: 30px;">
+            <!-- <h1>Web MTR Page</h1> -->
+          <div class="col-md-12">
+            <div class="card " style="padding-left: 15px; padding-right: 30px;">
+              <div class="card-header card-header-rose card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons left">network_cell</i>
+                </div> 
+                <h4 class="card-title ">Web MTR - {{ agentConnection.agent_name }}</h4>
+              </div><!-- /.card-header-->
+    
+    
+              <div class="card-body ">
+                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                <form *ngIf="!isProcessing" class="form-horizontal">
+                  <div class="row">
+                    <label class="col-sm-1 col-form-label">Host : </label>
+                    <div class="col-sm-11">
+                      <div class="row">
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input matInput type="text" placeholder="ex. google.com" [formControl]="host" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let hostSuggestion of hostSuggestions" [value]="hostSuggestion['url']">
+                                {{ hostSuggestion['url'] }}
+                              </mat-option>
+                              <!-- <mat-option value="ces.concentrix.com">ces.concentrix.com</mat-option>
+                              <mat-option value="dms.concentrix.com">dms.concentrix.com</mat-option> -->
+                            </mat-autocomplete>
+    
+                          </mat-form-field>
+                        </div><!--/.col-md-8-->
+                        <div class="col-md-2">
+                          <mat-form-field class="example-full-width">
+                            <mat-select placeholder="No. of hops" [formControl]="hops">
+                                <mat-option value="10">10 Hops</mat-option>
+                                <mat-option value="20">20 Hops</mat-option>
+                                <mat-option value="30">30 Hops</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                        </div><!--/.col-md-2-->
+                        <div class="col-md-2">
+                            <button *ngIf="!readOnly"  (click)="sendRequest()" mat-raised-button class="btn btn-primary">Start</button>
+                            <button *ngIf="readOnly"  mat-raised-button class="btn btn-primary disabled" >Start</button>
+                        </div><!--/.col-md-2-->
+                      </div><!--/.row-->
+                    </div><!--/.col-sm-11-->
+    
+                    <div class="col-sm-11 ml-auto mr-auto">
+                        <mat-progress-bar *ngIf="isDone" mode="determinate" value="100"></mat-progress-bar>
+                        <span *ngIf="isDone" class="text-muted">100% Done Extracting MTR.</span>
+                      </div><!--/.row-->
+                  </div><!--/.row-->
+                  
+                </form><!--/.form-horizontal-->
+    
+                <form *ngIf="isProcessing" class="form-horizontal">
+                  <h4>Station Details </h4>
+                    <div class="row">
+                      <label class="col-sm-1 col-form-label">Host : </label>
+                      <div class="col-sm-11">
+                        <div class="row">
+                          <div class="col-md-8">
+                            <!-- <input matInput type="text" placeholder="ex. google.com" disabled value="Scanning {{ host.value }}"> -->
+                            <!-- <p>Scanning {{ host.value }} ... </p> -->
+                            <mat-form-field class="example-full-width">
+                                <input matInput type="text"disabled value="Scanning {{ host.value }}">
+                              </mat-form-field>
+                          </div><!--/.col-md-8-->
+                          <div class="col-md-2">
+                            <mat-form-field class="example-full-width">
+                                <input placeholder="No. of hops" matInput type="text"disabled value="{{ hops.value }} Hops">
+                              </mat-form-field>
+                          </div><!--/.col-md-2-->
+                          <div class="col-md-2">
+                              <button  mat-raised-button class="btn btn-primary" disabled>Scanning..</button>
+                          </div><!--/.col-md-2-->
+                        </div><!--/.row-->
+                      </div><!--/.col-sm-11-->
+                      <div class="col-sm-11 ml-auto mr-auto">
+                        <mat-progress-bar mode="determinate" value="{{ agentConnection.progress }} "></mat-progress-bar>
+                        <span class="text-muted">{{ updateMessage(agentConnection.progress ) }}</span>
+                      </div>
+                    </div><!--/.row-->
+                  </form><!--/.form-horizontal-->
+    
+                  <div class="row" style="width: 1000px;">
+                      <div class="col-sm-11 ml-auto mr-auto mtr-table" >
+                        <h4>Scanned host : {{ agentConnection.mtr_host }}</h4>
+                        <div class="pre-wrap " [innerHTML]="agentConnection.mtr_result"></div>
+                      </div>
+                  </div><!--/.row-->
+    
+                  <form  class="form-horizontal">
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Status</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input *ngIf="agentConnection.is_active" matInput type="text" disabled value="Agent is Online" />
+                            <input *ngIf="!agentConnection.is_active" matInput type="text" disabled value="Agent is Offline" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Station Name</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input matInput type="text"disabled [attr.value]="agentConnection.station_name" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Higest AVG</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input  matInput type="text"disabled [attr.value]=" agentConnection.mtr_highest_avg" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Highest Loss</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input matInput type="text"disabled [attr.value]=" agentConnection.mtr_highest_loss" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Account</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input  matInput type="text"disabled [attr.value]=" agentConnection.account" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Location</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input  matInput type="text"disabled [attr.value]=" agentConnection.location" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+    
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Country</label>
+                        <div class="col-sm-9">
+                          <mat-form-field class="example-full-width">
+                            <input matInput type="text"disabled [attr.value]=" agentConnection.country" />
+                          </mat-form-field>
+                        </div>
+                    </div><!--/.row-->
+                  </form><!--/.form-horizontal-->
+    
+                  <div class="row">
+                    <div class="col-sm-11 ml-auto mr-auto">
+                        <h4>Base MTR ( google.com ) </h4>
+                      <div class="pre-wrap " [innerHTML]="agentConnection.base['mtr']"></div>
+                    </div>
+                </div><!--/.row-->
+    
+    
+              </div><!--/.card-body-->
+            </div><!--/.card-->
+          </div><!--/col-md-12-->
+        </div><!--/.container-fluid-->
+    </div><!--/.main-content-->
+</div>

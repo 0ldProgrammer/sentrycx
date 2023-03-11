@@ -1,0 +1,14 @@
+/* for chrome and other browsers */
+.sidebar-wrapper::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+	
+/* for firefox */
+.sidebar-wrapper {
+    scrollbar-width: none;
+}
+
+.collapse {
+    visibility: visible;
+}

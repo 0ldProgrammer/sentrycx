@@ -1,0 +1,50 @@
+<div class=" mt-5">
+    <div class="col-md-12 ml-auto mr-auto">
+        <div class="container">
+            <div class="row">
+                <h2 class="ml-auto mr-auto"> <img height="75" src="/assets/img/angular2-logo-white.png"/> SentryCX™</h2>
+            </div>
+    
+            <div class="card ">
+                <div class="card-header ">
+                  <h4 class="card-title">Client Dashboard
+                    <!-- <small class="description">Horizontal Tabs</small> -->
+                  </h4>
+                </div>
+                <div class="card-body ">
+                  
+
+                  <ul class="nav nav-pills nav-pills-warning px-0" role="tablist">
+                    <li class="nav-item" *ngFor="let navigation of NAVIGATION_PILLS; ">
+                        <a class="nav-link" [ngClass]="{ active : navigation.href == currentPill } " data-toggle="tab" href="{{ navigation.href }} " role="tablist">
+                          {{ navigation.name }}
+                        </a>
+                      </li>
+                  </ul><!--/.nav-pill .nav-pills-warning -->
+
+                  <mat-progress-bar *ngIf="!hasLoaded" mode="indeterminate" class="mt-3"></mat-progress-bar>
+                  <div class="tab-content tab-space" *ngIf="hasLoaded">
+                    
+                    <!-- MEAN OPINION SCORE SECTION -->
+                    <div class="tab-pane container" id="mean-opinion-score">
+                        <mean-opinion-score
+                        [data-worker-id]="hardwareInfo.worker_id"
+                        [data-agent]="hardwareInfo.agent_name"
+                        [data-packet-loss]="hardwareInfo.packet_loss"
+                        [data-average-latency]="hardwareInfo.average_latency"
+                        [data-jitter]="hardwareInfo.jitter"
+                        [data-mos]="hardwareInfo.mos"
+                        [data-readonly]="true"
+                       ></mean-opinion-score>
+                    </div><!--/#mean-opinion-score-->
+
+                    <!-- AGENT PROFILE -->
+                    <div class="tab-pane active" id="agent-profile">
+                        <agent-profile-standalone [workerID]="workerID"></agent-profile-standalone>
+                    </div><!--/#agent--profile-->
+                  </div>
+                </div>
+              </div>
+        </div><!--/.container-->
+    </div><!--/.col-md-10-->
+</div><!--/.container-->

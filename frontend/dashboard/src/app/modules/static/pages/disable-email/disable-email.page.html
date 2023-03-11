@@ -1,0 +1,55 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <h2 class="ml-auto mr-auto"> <img height="75" src="/assets/img/angular2-logo-white.png"/>
+                <div class="text-center">SentryCX™</div> 
+            </h2>
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                  </div>
+                    <div class="card-body">
+                        
+                        <div class="" style="margin-left: 550px;">
+                            <h4>
+                                Mail Notification
+                            </h4>
+                            <h4 *ngIf="disabled">
+                                Access to this page has already expired.
+                            </h4>
+                            <div class="report-checkbox">
+                                <mat-checkbox (change)="checkSpeedtest($event)" [checked]="initialSpeedtestValue" [disabled]="disabled">
+                                    Agent with Speedtest below threshold for the last 7 days
+                                </mat-checkbox>
+                            </div>
+                            <div class="report-checkbox">
+                                <mat-checkbox (change)="checkApplication($event)" [checked]="initialApplicationValue" [disabled]="disabled">
+                                    Application threshold for the last 7 days
+                                </mat-checkbox>
+                            </div>
+                            <div class="report-checkbox"> 
+                                <mat-checkbox (change)="checkWorkstation($event)" [checked]="initialWorkstationValue" [disabled]="disabled">
+                                    Workstation not connected for 3 days or more
+                                </mat-checkbox>
+                            </div>
+                            <div class="report-checkbox">
+                                <mat-checkbox (change)="checkUtilization($event)" [checked]="initialUtilizationValue" [disabled]="disabled">
+                                    CPU / Disk / RAM Utils for 3 days
+                                </mat-checkbox>
+                            </div>
+                            <div class="report-checkbox">
+                                <mat-checkbox (change)="checkRestrictedAndRequired($event)" [checked]="initialRequiredAndRestrictedValue" [disabled]="disabled">
+                                    Restricted and Required Applications
+                                </mat-checkbox>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" style="margin-top: 25px;;" (click)="executeNow()" [disabled]="disabled">Update</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

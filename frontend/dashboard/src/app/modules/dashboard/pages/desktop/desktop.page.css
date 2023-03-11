@@ -1,0 +1,13 @@
+.tooltip-css {
+    background-color: rgb(255, 128, 128);
+    color: red;
+  }
+  
+  .table-responsive {
+    min-height: 14em;
+    white-space: nowrap;
+  }
+
+  .card {
+    margin-bottom: 0px;
+  }

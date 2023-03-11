@@ -1,0 +1,106 @@
+version: '3'
+services:
+    angular:
+        build:
+            context: ./docker/angular
+            dockerfile: Dockerfile
+        image: sentrycx/angular
+        restart: unless-stopped
+        working_dir: /var/www/html
+        command: sh -c "npm install && ng serve --host 0.0.0.0 --port=4200"
+        tty: true
+        expose:
+            - 4200
+        ports:
+            - 4200:4200
+        volumes:
+            - ./frontend/dashboard:/var/www/html
+        networks:
+            - sentrycx
+        depends_on:
+            - mysql
+            - redis
+    socket:
+        image: node:10-alpine
+        restart: unless-stopped
+        working_dir: /var/www/html
+        command: sh -c "npm install && node dashboard.js"
+        tty: true
+        expose:
+            - 3000
+        ports:
+            - 3000:3000
+        volumes:
+            - ./backend/node-scripts:/var/www/html
+        networks:
+            - sentrycx
+        depends_on:
+            - mysql
+            - redis
+    api:
+        build:
+            context: ./docker/api
+            dockerfile: Dockerfile
+            args:
+                - WWWUSER=${WWWUSER:-1000}
+                - WWWGROUP=${WWWGROUP:-1000}
+        image: sentrycx/api
+        command: sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+        tty: true
+        expose:
+            - 8000
+        ports:
+            - 8000:8000
+        volumes:
+            - ./docker/api/php.ini:/usr/local/etc/php/conf.d/99-sentrycx.ini
+            - ./backend/api:/var/www/html
+        networks:
+            - sentrycx
+        depends_on:
+            - mysql
+            - redis
+    mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        tty: true
+        entrypoint:
+            [
+                'docker-entrypoint.sh',
+                '--default-authentication-plugin=mysql_native_password'
+            ]
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: sentrycx
+            MYSQL_DATABASE: sentrycx
+            MYSQL_USER: sentrycx
+            MYSQL_PASSWORD: sentrycx
+        volumes:
+            - sentrycx-mysql:/var/lib/mysql
+        networks:
+            - sentrycx
+    redis:
+        image: redis:alpine
+        restart: unless-stopped
+        tty: true
+        ports:
+            - 6379:6379
+        volumes:
+            - sentrycx-redis:/data
+        networks:
+            - sentrycx
+    mailhog:
+        image: mailhog/mailhog:latest
+        restart: unless-stopped
+        ports:
+            - 8025:8025
+        networks:
+            - sentrycx
+networks:
+    sentrycx:
+        driver: bridge
+volumes:
+    sentrycx-mysql:
+        driver: local
+    sentrycx-redis:
+        driver: local

@@ -1,0 +1,442 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+      <mat-sidenav-container>
+        <mat-sidenav [(opened)]="opened" position="end">
+          <dynamic-columns-drawer data-title='
+            <span class="btn-label">
+              <i class="material-icons">view_column</i>
+            </span>
+            '
+            [data-options]="tableColumns"
+            [data-default]="selectedColumns"
+            [data-closeonclick]="false"
+            data-type="MULTIPLE"
+            class="pull-right"
+            (onChange)="onDynamicColumnChange($event)"
+          ></dynamic-columns-drawer>
+        </mat-sidenav>
+        <mat-sidenav-content>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                  <!-- filter details -->
+                  <div class="pull-left">
+                    <dropdown data-title='
+                    <span class="btn-label">
+                      <i class="material-icons">assignment</i>
+                    </span>
+                    '
+                    [data-options]="filterData"
+                    [data-default]=""
+                    [data-closeonclick]="false"  
+                    data-type="SINGLE"
+                    selected-button="breakdown"
+                    (onChange)="onFilterChange($event)"
+                  ></dropdown>
+                  </div>
+                    
+                    <!-- <div class="card-icon">
+                      <i class="material-icons">assignment</i>
+                    </div> -->
+                    <dropdown [data-title]="agentStatusTitle"
+                      [data-options]="agentStatusOptions"
+                      [data-default]="['online']"
+                      data-type="SINGLE"
+                      (onChange)="onAgentStatusFilter($event)"
+                    ></dropdown> 
+                    <button mat-raised-button class="btn btn-warning btn-sm btn-readonly" style="color: white !important; cursor: pointer;">
+                       {{ paginate.total }}
+                    </button>
+                    <ng-container *ngFor="let filter of filteredData">
+                      <button *ngIf="filter.selected_column" style="cursor: default; text-transform: none; background-color: #60b615;border-color: #60b615;" class="pre-wrap btn-sm btn btn-primary btn-fontsize">{{ filter.selected_column }} : <span class="span-fontsize">{{ filter.count_data }}</span></button>
+                      <button *ngIf="!filter.selected_column" style="cursor: default; text-transform: none; background-color: #60b615;border-color: #60b615;" class="pre-wrap btn-sm btn btn-primary btn-fontsize">NO DATA : <span class="span-fontsize">{{  filter.null_values }}</span></button>  
+                    </ng-container>
+                  </div>
+                    <div class="card-body">
+                      
+                      
+                      
+                      <button mat-raised-button 
+                          [mdePopoverTriggerFor]="dropdownReportPopover" class="pre-wrap btn-sm btn btn-primary pull-right"
+                          mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                          <i class="material-icons">import_export</i> 
+                      </button>
+
+                      <button *ngIf="hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm"  matBadgeColor="accent" matBadge="!" data-toggle="modal" data-target="#connectedAgentsFilterModal" >
+                        <i class="material-icons">search</i> 
+                      </button>
+            
+                      <button *ngIf="!hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#connectedAgentsFilterModal"   >
+                        <i class="material-icons">search</i> 
+                      </button>
+
+
+                      <!-- TODO :  Convert this into component-->
+                      <!-- <dropdown data-title='
+                        <span class="btn-label">
+                          <i class="material-icons">view_column</i>
+                        </span>
+                        '
+                        [data-options]="tableColumns"
+                        [data-default]="selectedColumns"
+                        [data-closeonclick]="false"
+                        data-type="MULTIPLE"
+                        class="pull-right"
+                        (onChange)="onDynamicColumnChange($event)"
+                      ></dropdown> -->
+                        
+                      <button mat-raised-button
+                         class="pre-wrap btn-sm btn btn-info pull-right" (click)="opened=!opened">
+                         <span class="btn-label">
+                          <i class="material-icons">view_column</i>
+                        </span>
+                      </button>
+
+                      <div class="col-lg-3 float-right">
+                        <form class="navbar-form">
+                            <span class="bmd-form-group">
+                                <div class="input-group no-border">
+                                    <input autocomplete="off" (keydown.enter)="searchValue()" (keyup)="searchEmptyValue()" type="text" [(ngModel)]="search_value"
+                                        [formControl]="searchBar" class="form-control" placeholder="Search...">
+                                    <button mat-raised-button (click)="onSearchIcon()"
+                                        class="btn btn-white btn-round btn-just-icon">
+                                        <i class="material-icons">search</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                    <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                                        aria-label="Clear" (click)="emptySearch()">
+                                        <mat-icon>close</mat-icon>
+                                    </button> 
+                                </div>
+                            </span>
+                        </form>
+                      </div>
+              
+                        <auto-refresher #autoRefresher (onChange)="invalidateRefresh()"></auto-refresher>
+
+                        <button (click)="invalidateRefresh()" mat-raised-button class="btn btn-success btn-sm"  matBadgeColor="accent" matBadge="{{updateCounter}}" >
+                          <i class="material-icons">refresh</i> 
+                        </button>
+                        <span class="text-details"> {{ autoRefresher.selectedOptionLabel }}</span>
+                        
+
+                        <div class="table-responsive">
+                             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                             <table class="table table-striped table-hover">
+                                  <thead class="text-primary">
+                                      <tr>
+                                        <th>
+                                          <dropdown [data-title]="speedtestTitle"
+                                            [data-options]="speedtestOptions"
+                                            [data-default]="['all']"
+                                            data-class="btn-link p-0"
+                                            data-type="SINGLE"
+                                            (onChange)="onSpeedtestFilter($event)"
+                                          ></dropdown> 
+                                        </th>
+
+                                        <th>
+                                            <!-- <sort-header class="text-left"
+                                            data-field='agent_name'
+                                            data-name='Agent Name'
+                                            [data-selected]="sortedField == 'agent_name' "
+                                          (onSort)="sortFlag($event)"
+                                            ></sort-header> -->
+
+                                            <sort-header-filter class="text-left"
+                                              data-field='agent_name'
+                                              data-name='Agent Name'
+                                              [data-selected]="sortedField == 'agent_name' "
+                                              [data-filters]="filterOptions['filters']"
+                                              (onSort)="sortFlag($event)"
+                                              (onSearch)="search($event)"
+                                            ></sort-header-filter>
+                                        </th>
+
+                                        <!-- <ng-container  *ngFor="let header of flagHeaders">
+                                          <th *ngIf="flagSelectedColumns | contains:header.field"> 
+                                            <sort-header
+                                            class="text-left"
+                                            [data-field]='header.field'
+                                            [data-name]='header.name'
+                                           [data-selected]="sortedField == header.field"
+                                           (onSort)="sortFlag($event)"
+                                          ></sort-header>
+                                          </th>
+                                        </ng-container> -->
+                                        <ng-container *ngFor="let header of flagHeaders">
+                                          <th *ngIf="selectedColumns | contains:header.field">
+                                            <sort-header-filter [ngClass]="header.class"
+                                              [data-field]='header.field'
+                                              [data-name]='header.name'
+                                              [data-selected]="sortedField == header.field"
+                                              [data-filters]="filterOptions['filters']"
+                                              (onSort)="sortFlag($event)"
+                                              (onSearch)="search($event)"
+                                            ></sort-header-filter>
+                                          </th>
+                                        </ng-container>
+                                        <th *ngIf="selectedColumns | contains:'securecx_gate_1'">SecureCX Gate1</th>
+                                        <th *ngIf="selectedColumns | contains:'securecx_gate_2'">SecureCX Gate2</th>
+                                        <th *ngIf="selectedColumns | contains:'securecx_gate_3'">SecureCX Gate3</th>                                                       
+                                        <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons">headset</i></th>
+                                        <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons">mic</i></th>
+                                        <th *ngIf="selectedColumns | contains:'media_device'"><i class="material-icons" >camera_alt</i></th>   
+                                        <th class="text-center"></th>
+                                      </tr>
+                                  </thead>
+                                <tbody>
+                                    <tr *ngFor="let agent of connectedAgents ">
+                                          <td style="min-width : 50px;">
+                                            <!-- <i *ngIf="agent.download_speed < 10 || agent.mos < 3.6" class="material-icons text-danger font-sm">brightness_1</i> -->
+                                            <popover-red-dot [data-agent]="agent"></popover-red-dot>
+                                          </td>
+                                          <td class="text-left" style="min-width : 105px; cursor: pointer;">
+                                            <popover [data-text]="agent.agent_name | titlecase" 
+                                              [data-header]="'MTR Result : ' + agent.agent_name"
+                                              [data-content]="agent.mtr_result"
+                                              class="mtr-table"
+                                            ></popover>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'host_name'" class="text-left">{{ agent.host_name | default:'-'}}</td>
+                                          <td *ngIf="selectedColumns | contains:'connection_type'" class="text-left">{{ agent.connection_type | default:'-'}}</td>
+                                          <td *ngIf="selectedColumns | contains:'net_type'" class="text-left">{{ agent.net_type}}</td>
+                                          <td *ngIf="selectedColumns | contains:'station_number'" class="text-left">{{ agent.station_number}}</td>
+                                          <td *ngIf="selectedColumns | contains:'position'" class="text-left">{{ agent.job_profile | default:'-' }}</td>
+                                          <td *ngIf="selectedColumns | contains:'location'" class="text-left">{{ agent.location }}</td>
+                                          <td *ngIf="selectedColumns | contains:'account'" class="text-left">{{ agent.account }}</td>
+                                          <td *ngIf="selectedColumns | contains:'manager'" class="text-left">{{ agent.supervisor_full_name }}</td>
+                                          <td *ngIf="selectedColumns | contains:'mtr_highest_avg'" class="text-right">{{ agent.mtr_highest_avg | removeComma | default: '0' | number: '1.2-2' }} </td>
+                                          <td *ngIf="selectedColumns | contains:'mtr_highest_loss'" class="text-right">{{ agent.mtr_highest_loss | default: '0' | number: '1.2-2' }}</td>
+                                          <td *ngIf="selectedColumns | contains:'host_ip_address'" class="text-right">{{ agent.host_ip_address | default: '0.0.0.0' }}</td>
+                                          <td *ngIf="selectedColumns | contains:'vpn'" class="text-left">{{ agent.vpn }}</td>
+                                          <td *ngIf="selectedColumns | contains:'VLAN'" class="text-left" >{{ agent.VLAN | default: 'Not Mapped' }} </td>
+                                          <td *ngIf="selectedColumns | contains:'DNS_1'" class="text-right" >{{ agent.DNS_1 | default: '0.0.0.0' }} </td>
+                                          <td *ngIf="selectedColumns | contains:'DNS_2'" class="text-right" >{{ agent.DNS_2 | default: '0.0.0.0' }}</td>
+                                          <td *ngIf="selectedColumns | contains:'subnet'" class="text-right" >{{ agent.subnet | default: '0.0.0.0' }} </td>
+                                          <!-- <td *ngIf="selectedColumns | contains:'ISP'" class="text-left" >{{ agent.ISP }}</td> -->
+                                          <td *ngIf="selectedColumns | contains:'ISP'" class="text-left" >
+                                              <div *ngIf="agent.ISP == agent.isp_fullname">
+                                                {{ agent.ISP | default: 'Unknown'}}
+                                              </div>
+                                              <div *ngIf="agent.ISP != agent.isp_fullname" matTooltip="{{agent.isp_fullname}}" 
+                                                matTooltipPosition="after" 
+                                                matTooltipClass="tooltip-css">
+                                                {{ agent.ISP | default: 'Unknown'}}
+                                              </div>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'download_speed'" class="text-right" [ngClass]="{'text-danger': (agent.download_speed && agent.download_speed < 10 && agent.download_speed >= 1)}">
+                                            {{ agent.download_speed ? agent.download_speed : 'On VPN' | replace:'Download speed: ':''}} {{ agent.download_speed && agent.download_speed !== ' - ' ? 'Mbps' : ''}}
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'upload_speed'" class="text-right" [ngClass]="{'text-danger': (agent.upload_speed && agent.upload_speed < 5 && agent.upload_speed >= 1)}">
+                                            {{ agent.upload_speed ? agent.upload_speed: 'On VPN' | replace:'Upload speed: ':''}} {{ agent.upload_speed && agent.upload_speed !== ' - ' ? 'Mbps' : ''}}
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'average_latency'" class="text-right">{{ agent.average_latency | number : '1.2-2'}}</td>
+                                          <td *ngIf="selectedColumns | contains:'packet_loss'" class="text-right">{{ agent.packet_loss | number : '1.2-2' }}% </td>
+                                          <td *ngIf="selectedColumns | contains:'jitter'" class="text-right">{{ agent.jitter | number : '1.2-2'}}</td>
+                                          <td *ngIf="selectedColumns | contains:'mos'" [ngClass]="agent.mos | mosRate" class="text-right">{{ agent.mos | number: '1.2-2' }} </td>
+                                          <td *ngIf="selectedColumns | contains:'updated_at_aging'" class="text-right">{{ agent.updated_at | dateAgo }}</td>
+                                          <td *ngIf="selectedColumns | contains:'updated_at'" class="text-right">{{ agent.updated_at | timezone }}</td>
+                                          <td *ngIf="selectedColumns | contains:'Throughput_percentage'" class="text-right">{{ agent.Throughput_percentage | default: '0.00%' }} </td>
+                                          <td *ngIf="selectedColumns | contains:'lob'" class="text-left">{{ agent.lob | default:'-' }}</td>
+                                          <td *ngIf="selectedColumns | contains:'programme_msa'" class="text-left">{{ agent.programme_msa | default:'-' }}</td>
+                                          <!-- <td *ngIf="selectedColumns | contains:'job_profile'">{{ agent.job_profile | default:'-' }}</td> -->
+                                          <td *ngIf="selectedColumns | contains:'supervisor_email_id'" class="text-left">{{ agent.supervisor_email_id | default:'-' }}</td>
+                                          <!-- <td *ngIf="selectedColumns | contains:'supervisor_full_name'">{{ agent.supervisor_full_name | default:'-' }}</td> -->
+                                          <td *ngIf="selectedColumns | contains:'securecx_gate_1'" [matTooltip]="agent.securecx_gate_1" 
+                                            matTooltipPosition="before" matTooltipClass="my-custom-tooltip"> 
+                                            <i class="material-icons text-success" *ngIf="agent.securecx_gate_1" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.securecx_gate_1 === null" text-danger>block</i>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'securecx_gate_2'" [matTooltip]="agent.securecx_gate_2" 
+                                            matTooltipPosition="before" matTooltipClass="my-custom-tooltip" > 
+                                            <i class="material-icons text-success" *ngIf="agent.securecx_gate_2" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.securecx_gate_2 === null" text-danger>block</i>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'securecx_gate_3'" [matTooltip]="agent.securecx_gate_3" 
+                                            matTooltipPosition="before" matTooltipClass="my-custom-tooltip" > 
+                                            <i class="material-icons text-success" *ngIf="agent.securecx_gate_3" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.securecx_gate_3 === null" text-danger>block</i>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'media_device'"> 
+                                            <i class="material-icons text-success" *ngIf="agent.audio == true" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.audio == false" text-danger>block</i>
+                                            <i *ngIf="agent.audio === null" text-warning>-</i>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'media_device'">  
+                                            <i class="material-icons text-success" *ngIf="agent.mic == true" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.mic == false" text-danger>block</i>
+                                            <i  *ngIf="agent.mic === null" text-warning>-</i>
+                                          </td>
+                                          <td *ngIf="selectedColumns | contains:'media_device'"> 
+                                            <i class="material-icons text-success" *ngIf="agent.video == true" text-success>check_circle</i>
+                                            <i class="material-icons text-danger" *ngIf="agent.video == false" text-danger>block</i>
+                                            <i *ngIf="agent.video === null" text-warning>-</i>
+                                          </td>
+                                          <td class="td-actions text-right">
+                                            <div *ngIf="!agent.is_active" class="">
+                                                <!-- Web MTR Button -->
+                                                <a matTooltip="Agent is offline" 
+                                                  matTooltipPosition="before" 
+                                                  matTooltipClass="tooltip-css" 
+                                                  class="waves-effect waves-light btn btn-light btn-sm  btn-link" 
+                                                  >
+                                                    <i class="material-icons left">network_cell</i>
+                                                </a>
+
+                                                <!-- Remote Desktop Button -->
+                                                <a matTooltip="Agent is Offline" 
+                                                  matTooltipPosition="before" 
+                                                  matTooltipClass="tooltip-css" 
+                                                  class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                                                  >
+                                                    <i class="material-icons left">screen_share</i>
+                                                </a>
+
+                                                
+                                                <popover-workstation [data-text]="''" 
+                                                  [data-agent]="agent"
+                                                  (onClick)="loadWorkstation($event)"
+                                                ></popover-workstation>
+
+                                                 <!-- Threshold Button -->
+                                                 <a matTooltip="Agent is Offline" 
+                                                 matTooltipPosition="before" 
+                                                 matTooltipClass="tooltip-css" 
+                                                 class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                                                 >
+                                                   <i class="material-icons left">apps</i>
+                                               </a>
+                                              </div>
+
+                                            <div *ngIf="agent.is_active" class="">
+                                              <!-- Web CMD Button -->
+                                              <!-- <a *ngIf="agent.is_active" matTooltip="Viewing WEB CMD" 
+                                                matTooltipPosition="before" 
+                                                matTooltipClass="tooltip-css" 
+                                                class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                                                target="_blank" [routerLink]="['/dashboard/web-cmd', agent.worker_id ]">
+                                                  <i class="material-icons left">tab</i>
+                                              </a> -->
+
+                                              <!-- Web MTR modal -->
+                                              <a *ngIf="agent.is_active" matTooltip="Viewing WEB MTR" 
+                                                matTooltipPosition="before" 
+                                                matTooltipClass="tooltip-css" 
+                                                class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                                                (click)="!!loadWebMTR(agent.id)">
+                                                  <i class="material-icons left">network_cell</i>
+                                              </a>
+
+                                              <!-- Remote Desktop Button -->
+                                              <a *ngIf="agent.is_active" matTooltip="ZOHO Connect" 
+                                                matTooltipPosition="before" 
+                                                [ngClass]="{'disabled': readOnly}"
+                                                class="waves-effect waves-light btn btn-danger btn-sm btn-link" 
+                                                target="_blank" [routerLink]="['/integrations/zoho']" 
+                                                [queryParams]="{ state : agent.worker_id }">
+                                                  <i class="material-icons left">screen_share</i>
+                                              </a>
+
+                                              <!-- Agent Profile Button -->
+                                              <!-- <a matTooltip="Agent Profile"  matTooltipPosition="before" 
+                                               (click)="loadAgentProfile(agent.worker_id)"
+                                               class="waves-effect waves-light btn btn-info btn-sm btn-link"  >
+                                                 <i class="material-icons left">account_box</i>
+                                              </a> -->
+
+                                              <popover-agent (onClick)="loadAgentProfile($event)"
+                                                [data-agent-id]="agent.worker_id"
+                                                [profile]="agent"
+                                                >
+                                              </popover-agent>
+
+                                              <!-- Workstation Profile Button-->
+                                              <popover-workstation [data-text]="''" 
+                                                [data-agent]="agent"
+                                                (onClick)="loadWorkstation($event)"
+                                              ></popover-workstation>
+
+                                              <!-- New Workstation Profile -->
+                                              <!-- <a matTooltip="New Workstation Profile" 
+                                                matTooltipPosition="before" 
+                                                (click)="loadNewWorkstationProfile(agent)"
+                                                class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                                              >
+                                                  <i class="material-icons left">apps</i>
+                                              </a> -->
+
+                                              <!-- <a matTooltip="Redirect to SentryCX Plus" 
+                                                matTooltipPosition="before" 
+                                                matTooltipClass="tooltip-css"
+                                                target="_blank"
+                                                href="{{'https://sentrycx-plus-ui.livelyocean-1da53afa.eastus.azurecontainerapps.io/?deviceName=' + agent.station_number + '&user=' + agent.host_name + '&token=' + userToken }}"  
+                                                class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                                              >
+                                                  <i class="material-icons left">link</i>
+                                              </a> -->
+
+                                              <!-- Application Monitoring Button : DISABLED -->
+                                              <!-- <a *ngIf="!agent.has_threshold" matTooltip="Agent Applications" 
+                                                matTooltipPosition="before" 
+                                                (click)="loadAplicationMonitoring(agent)"
+                                                class="waves-effect waves-light btn btn-light btn-sm btn-link" 
+                                              >
+                                                  <i class="material-icons left">apps</i>
+                                              </a> -->
+
+                                              <!-- Application Monitoring Button  -->
+                                              <!-- <a *ngIf="agent.has_threshold" matTooltip="Agent Applications" 
+                                                (click)="loadAplicationMonitoring(agent)"
+                                                matTooltipPosition="before" 
+                                                class="waves-effect waves-light btn btn-warning btn-sm btn-link" 
+                                                matBadgeColor="accent"
+                                                matBadge="!" >
+                                                  <i class="material-icons left">apps</i>
+                                              </a> -->
+                                            </div>
+                                          </td>
+                                    </tr>
+                                </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div><!--/.row-->
+
+        <mat-paginator (page)="updateData($event)"
+          [length]="paginate.total"
+          [pageSize]="paginate.perPage"
+          [pageIndex]="paginate.currentPage - 1"
+          [pageSizeOptions]="[10, 20, 30, 40, 50]">
+        </mat-paginator>
+
+    <!--/.modal-->
+        <mde-popover #dropdownReportPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true" [mdePopoverCloseOnClick]="true" mdePopoverTriggerOn="click">
+          <mat-card style="max-width: 300px">
+              <mat-card-content>
+              <mat-nav-list>
+                <a mat-list-item *ngFor="let item of reportType" (click)="setReport(item.value)">
+                  {{ item.name }} 
+              </a>
+              </mat-nav-list>
+              </mat-card-content>
+          </mat-card>
+        </mde-popover>
+      </mat-sidenav-content>
+      </mat-sidenav-container>
+
+      <div class="modal fade" id="connectedAgentsFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <popup-filter [data-filters]="filterOptions['filters']"
+          [data-fields]="filterOptions['fields']"
+          (onSearch)="search($event)"
+          (onReset)="reset()">
+        </popup-filter>
+      </div>
+    </div>
+</div>
+

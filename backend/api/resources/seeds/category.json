@@ -1,0 +1,1 @@
+[{"id":1,"name":"voice","has_submenu":0,"ref_table_submenu":"","cbo_title":""},{"id":2,"name":"network","has_submenu":1,"ref_table_submenu":"networks","cbo_title":"Select URL"},{"id":3,"name":"application","has_submenu":1,"ref_table_submenu":"applications","cbo_title":"Select LOB"}]

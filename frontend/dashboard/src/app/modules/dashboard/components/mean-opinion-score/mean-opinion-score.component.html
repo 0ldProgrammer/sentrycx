@@ -1,0 +1,139 @@
+<div class="row">
+    <div class="col-md-4" style="min-height: 60vh; height: 90vh">
+        <div class="mos-side-info">
+            <form class="row col-md-10 col-lg-10" method="#" action="#">
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Agent Names" [attr.value]="agent" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Packet Loss Percentage" [attr.value]="packetLoss | number : '1.2-2'" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Average Latency" [attr.value]="averageLatency | number : '1.2-2'" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Jitter" [attr.value]="jitter" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="MOS" [attr.value]="mos + ' (' + quality +')'" [ngClass]="mos | mosRate " disabled>
+                </mat-form-field>
+            </form>
+            <div class="row" [ngClass]="mos | mosRate ">
+                <i *ngFor="let e of [].constructor( starRating.full );" class="material-icons">star</i>
+                <i *ngFor="let e of [].constructor( starRating.half );" class="material-icons">star_half</i>
+                <i *ngFor="let e of [].constructor( starRating.empty );" class="material-icons">star_border</i>
+            </div>
+            <div class="row">
+                <table class="table table-striped table-hover col-lg-10 col-md-10">
+                    <thead class="text-primary">
+                        <tr>
+                            <th *ngFor="let item of EVALUATION_LIST" [ngClass]="item['class']">{{ item['quality'] }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td *ngFor="let item of EVALUATION_LIST" [ngClass]="item['class']" class="text-center">{{ item['rating'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><!--/.row-->
+    
+            <div class="row" *ngIf="!readonly">
+                <button mat-raised-button class="btn btn-primary btn-sm" (click)="reloadMOS()">
+                    <i class="material-icons">refresh</i> Reload MOS
+                </button>
+    
+                <button mat-raised-button class="btn btn-warning btn-sm" (click)="autoMOS()">
+                    <i class="material-icons">block</i> Stop Auto MOS
+                </button>
+            </div>
+        </div>
+        
+    </div><!--/.col-md-6-->
+    
+    
+    <div class="col-md-8 float-right;">
+        <!-- ngif is use for showing and hiding the component incase there are no data  -->
+        <charts-graph-component *ngIf="records.length > 0"
+            Title="Mean Opinion Score"
+            Subtitle="Chart"
+            [legend]="false"
+            [data]="MOSData"
+        ></charts-graph-component>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="text-primary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th *ngFor="let field of HISTORICAL_FIELDS">{{ field.name }}</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="records.length > 0">
+                    <tr *ngFor="let record of records" [ngClass]="record.mos | mosRate ">
+                        <td>{{record.id}}</td>
+                        <td>{{ record.created_at | date:'medium' }} </td>
+                        <td class="text-center" *ngFor="let field of HISTORICAL_FIELDS">{{ record[field.id] | number : '1.2-2' }}</td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="!isLoading && records.length == 0">
+                    <tr>
+                        <td colspan="5" class="text-center">No Records found</td>
+                    </tr>
+                </tbody>
+
+                <tbody *ngIf="isLoading" >
+                    <tr>
+                        <td colspan="5" class="text-center"><mat-progress-bar  mode="indeterminate"></mat-progress-bar></td>
+                    </tr>
+                    
+                </tbody>   
+                <!-- generate report -->
+            </table>
+
+        </div><!--/.table-responsive-->
+
+        <div class="row" style="margin-top: 20px; float:right;">
+            <form [formGroup]="mosLogForm">
+                <div class="row">
+                    <!-- <label class="col-sm-2 col-form-label">Extract Logs</label> -->
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="startDatePicker"
+                                    formControlName="startDate"
+                                    placeholder="Start Date" 
+                                    autocomplete="off"
+                                    (click)="startDatePicker.open()">
+                                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #startDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="endDatePicker" 
+                                    formControlName="endDate"
+                                    placeholder="End Date" 
+                                    autocomplete="off"
+                                    (click)="endDatePicker.open()">
+                                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #endDatePicker></mat-datepicker>
+                                </mat-form-field>
+                            </div> 
+                            <div class="col-md-4">
+                                <button  [ngClass]="{ 'disabled' : mosLogForm.invalid  }" class="btn btn-primary btn-xs" (click)="extractLog()">Export Log</button>
+                            </div>  
+                        </div>
+                    </div><!--/.col-sm-10-->
+                </div>
+            </form>
+        </div>
+    </div><!--/.col-md-6-->
+</div>
+

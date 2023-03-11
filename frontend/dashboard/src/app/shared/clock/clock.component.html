@@ -1,0 +1,10 @@
+<div class="card bg-rose" (click)="showTimezoneModal()" style="cursor: pointer;">
+
+  <h2 class="card-title clock">
+    <a><span class="hours">{{ selectedTime.hour }}</span></a> <span class="blinking">:</span>
+    <a><span class="min">{{ selectedTime.min }}</span></a> <span class="blinking">:</span>
+    <a><span class="sec">{{ selectedTime.sec }}</span></a>
+    <a><span class="badge sec">{{ selectedTime.mode }} </span></a>
+    <a><span class="badge sec">{{ selectedTime.date }} </span></a>
+  </h2>
+</div>

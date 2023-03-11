@@ -1,0 +1,143 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">apps</i>
+                    </div>
+                  </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-3 offset-md-9">
+                            <form class="navbar-form">
+                                <span class="bmd-form-group">
+                                    <div class="input-group no-border">
+                                        <input autocomplete="off" type="text" [(ngModel)]="search_value"
+                                            [formControl]="filter" class="form-control" placeholder="Search...">
+                                        <button mat-raised-button type="submit"
+                                            class="btn btn-white btn-round btn-just-icon">
+                                            <i class="material-icons">search</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
+                                        <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                                            aria-label="Clear" (click)="search_value=''">
+                                            <mat-icon>close</mat-icon>
+                                        </button> 
+                                        <button mat-raised-button 
+                                        [mdePopoverTriggerFor]="dropdownReportPopover" class="pre-wrap btn-sm btn btn-primary pull-right"
+                                        mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                                        <i class="material-icons">import_export</i> 
+                                      </button>
+                                    </div>
+                                </span>
+                           
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                          <mat-tab-group (selectedTabChange)="applicationsTypeSelected($event)">
+                            <mat-tab label="Required Applications">
+                              <div class="table-responsive" style="margin-top: 20px">
+                                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                                <table class="table  table-hover">
+                                    <thead class="text-primary">
+                                        <tr>
+                                          <th *ngFor="let head of header" class="text-left">
+                                            {{ head.charAt(0).toUpperCase() + head.slice(1) }}
+                                          </th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+                                    <ng-container *ngFor="let stats of accountStats">
+                                      <tr (click)="selectAccount(stats.account)" [ngClass]="{'table-info': stats.account == selectedAccount }">
+                                        <td class="text-left" *ngFor="let field of header">{{ stats[field] }}</td>
+                                      </tr>
+                                      <!-- Location Breakdown -->
+                                      
+                                      <ng-container *ngIf="(selectedAccount == stats.account)">
+                                        <tr *ngFor="let locationBreakdown of locationStats[stats.account]"> 
+                                          <td class="text-left pl-5">{{ locationBreakdown.location }} </td>
+                                          <td class="text-left" *ngFor="let field of header | slice:1; let i = index">{{ locationBreakdown[field] }}</td>
+                                        </tr>
+                                      </ng-container>
+                                      
+                                    </ng-container>
+                                  </tbody>
+                                  <tfoot>
+                                    <tr *ngFor="let total of totalStats">
+                                      <td class="text-left"><b>TOTAL</b> </td>
+                                      <td class="text-left" *ngFor="let field of header | slice:1; let i = index"><b>{{ total[field] }}</b></td>
+                                    </tr>
+                                  </tfoot>
+                                </table>
+                              </div>
+                            </mat-tab>
+                            <mat-tab label="Restricted Applications">
+                              <div class="table-responsive" style="margin-top: 20px">
+                                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                                <table class="table  table-hover">
+                                    <thead class="text-primary">
+                                        <tr>
+                                          <th *ngFor="let head of header" class="text-left">
+                                            {{ head.charAt(0).toUpperCase() + head.slice(1) }}
+                                          </th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+                                    <ng-container *ngFor="let stats of accountStats">
+                                      <tr (click)="selectAccount(stats.account)" [ngClass]="{'table-info': stats.account == selectedAccount }">
+                                        <td class="text-left" *ngFor="let field of header">{{ stats[field] }}</td>
+                                      </tr>
+                                      <!-- Location Breakdown -->
+                                      
+                                      <ng-container *ngIf="(selectedAccount == stats.account)">
+                                        <tr *ngFor="let locationBreakdown of locationStats[stats.account]"> 
+                                          <td class="text-left pl-5">{{ locationBreakdown.location }} </td>
+                                          <td class="text-left" *ngFor="let field of header | slice:1; let i = index">{{ locationBreakdown[field] }}</td>
+                                        </tr>
+                                      </ng-container>
+                                      
+                                    </ng-container>
+                                  </tbody>
+                                  <tfoot>
+                                    <tr *ngFor="let total of totalStats">
+                                      <td class="text-left"><b>TOTAL</b> </td>
+                                      <td class="text-left" *ngFor="let field of header | slice:1; let i = index"><b>{{ total[field] }}</b></td>
+                                    </tr>
+                                  </tfoot>
+                                </table>
+                              </div>
+                            </mat-tab>
+                          </mat-tab-group>
+                        </div>
+                      </div>
+                      <div class="note-message" style="margin-top: 50px;">
+                        <span><i>{{ note }}</i></span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mde-popover #dropdownReportPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true" [mdePopoverCloseOnClick]="true" mdePopoverTriggerOn="click">
+          <mat-card style="max-width: 300px">
+              <mat-card-content>
+              
+              <mat-nav-list>
+                <a mat-list-item *ngFor="let item of reportType" (click)="setReport(item.value)">
+                  {{ item.name }} 
+              </a>
+              </mat-nav-list>
+              </mat-card-content>
+          </mat-card>
+        </mde-popover>
+        <!-- <mat-paginator (page)="updateData($event)"
+          [length]="paginate.total"
+          [pageSize]="paginate.perPage"
+          [pageSizeOptions]="[10, 20, 30, 40, 50]">
+        </mat-paginator> -->
+
+    </div>
+</div>
+

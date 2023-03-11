@@ -1,0 +1,47 @@
+<div class="modal-dialog modal-notice">
+    <div class="modal-content">
+          <div class="modal-header ">
+            <h4 class="modal-title" id="modal-basic-title">Filter</h4>
+            <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+          <div class="modal-body ">
+            <mat-form-field appearance="fill" class="my-1">
+                <mat-label>Filters</mat-label>
+                  <mat-select [formControl]="selectedFilter" multiple>
+                    <mat-option *ngFor="let filterName of filterRef" [value]="filterName">{{filterName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            <form [formGroup]="dynamicForm" *ngIf="filters" (ngSubmit)="submitBtn._elementRef.nativeElement.click()" >
+                <div  *ngFor="let field of fields">
+                    <mat-form-field  *ngIf="hasSelected(selectedFilter.value, field.name)" class="example-full-width my-1">
+                        <mat-label>{{ field.name }}</mat-label>
+                        <mat-select *ngIf="field.type == 'select' " formControlName="{{field.key}}" multiple>
+                            <mat-option *ngFor="let filterName of filters[field.key]" [value]="filterName">{{filterName}}</mat-option>
+                        </mat-select>
+
+                        <input *ngIf="field.type == 'input'" matInput placeholder="Filter by {{field.name}}" type="text" formControlName="{{field.key}}">
+                        <input *ngIf="field.type == 'date'" matInput [matDatepicker]="datePicker"
+                          formControlName="{{field.key}}"
+                          autocomplete="off"
+                          (click)="datePicker.open()"
+                        >
+                        <mat-datepicker-toggle *ngIf="field.type == 'date'" matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker></mat-datepicker>
+
+                        <!-- 
+                          <mat-form-field class="example-full-width">
+                            
+                          </mat-form-field> -->
+                    </mat-form-field>
+                </div>
+                
+            </form>
+
+              <button #submitBtn data-dismiss="modal" (click)="search()" mat-raised-button class="btn btn-primary"><i class="material-icons">search</i>Filter</button>
+              <button data-dismiss="modal" (click)="reset()" mat-raised-button class="btn btn-default close"><i class="material-icons">refresh</i>Reset</button>
+
+          </div><!--/.modal-body-->
+      </div>
+  </div>

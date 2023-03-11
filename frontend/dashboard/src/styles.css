@@ -1,0 +1,297 @@
+/* You can add global styles to this file, and also import other style files */
+
+.btn-yellow {
+    background-color: #fdd835;
+}
+
+.text-yellow {
+  color: #fdd835 !important;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+    z-index: 999999 !important;
+}
+
+.pre-wrap {
+    white-space: pre-wrap;
+    text-align: left;
+    font-weight: normal;
+    color: #212121;
+}
+
+h6.card-category {
+  color : #212121 !important;
+}
+
+.mat-form-field .mat-form-field-label,
+.mat-form-field input:disabled {
+    color : #212121;
+    font-weight: normal;
+}
+
+.bg1div{
+	background-image: url('./assets/img/bg1.jpg'); 
+	background-repeat: no-repeat; 
+	height:510px;
+}
+
+.icon-placeholder {
+  font-size: 5em;
+  color: #999 !important;
+}
+
+@media screen and (max-width: 1000px) {
+  div.bg1div {
+    background-image: none;
+  }
+}
+
+.card .card-header-rose .card-icon, .card .card-header-rose .card-text, .card .card-header-rose:not(.card-header-icon):not(.card-header-text), .card.bg-rose, .card.card-rotate.bg-rose .front, .card.card-rotate.bg-rose .back{
+background: linear-gradient(60deg,#8ec453,#6ba844);
+}
+
+/* .card-header-yellow {
+  background: #fdd835 !important;
+} */
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td
+{
+	/* font-weight: bold; */
+  font-weight: normal;
+  padding: 0px 6px;
+  text-align: center;
+}
+
+.table > thead > tr:first-child > th
+{
+  color: #0d47a1;
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.mat-form-field-infix {
+  font-weight: 500 !important;
+}
+
+.black-tooltip {
+  /* your own custom styles here */ 
+  /* e.g. */
+  color: #000!important;
+}
+
+p.card-category {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+}
+
+
+a.navbar-brand {
+  font-weight: bold !important;
+}
+
+.btn-readonly {
+  font-weight: bold !important;
+  color: #000 !important;
+  font-size: 16px !important;
+  padding: 0.15em 0.5em !important;
+}
+
+.table .td-actions .btn {
+  background-color: transparent;
+  color: #333 !important;
+  box-shadow: none;
+  border: 0.5px solid gray;
+}
+
+span.badge.sec {
+  font-size: 22px;
+}
+
+
+h4, .h4 {
+  font-size: 1.125rem;
+  line-height: 1.4em;
+  font-weight: bold !important;
+}
+
+
+.mat-button.btn.btn-info, .mat-raised-button.btn.btn-info, .mat-raised-button.btn:not([class*=mat-elevation-z]).btn-info, .btn.btn-info {
+  background-color: #60b615;
+  border-color: #60b615;
+}
+
+.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus, .dropdown-menu a:hover, .dropdown-menu a:focus, .dropdown-menu a:active {
+  /* background-color: #e1bee7 !important; */
+  /* color: #000!important; */
+  color : #fff !important;
+}
+
+.card.summary-block .card-header-danger .card-icon, .card .card-header-danger:not(.card-header-icon):not(.card-header-text), .card .card-header-danger .card-text {
+  cursor: pointer;
+  background: linear-gradient( 60deg,#64B5F6,#002a54);
+  /* background: none; */
+}
+/* 
+.summary-block.block-green {
+  background: linear-gradient( #80b84d,#65943a);
+  color: #fff;
+}
+
+.summary-block.block-pink {
+  background: linear-gradient( #f48fb1,#f75f6d);
+  color: #fff;
+}
+
+.summary-block.block-orange {
+  background: linear-gradient(45deg, #ffe0b2, #f1bb55);
+  color: #fff;
+} */
+
+
+/* .summary-block .card-header .card-icon {
+  cursor: pointer;
+  background: none;
+  box-shadow: none;
+  padding-top: 36px;
+  padding-left: 0px;
+  opacity: .50;
+} */
+  
+.summary-block .card-footer {
+  margin-top: 0px;
+}
+
+/* .summary-block .card-icon {
+  background: none;
+}
+
+.summary-block i.material-icons {
+  font-size: 75px !important;
+
+} */
+
+.summary-block p.card-category {
+  font-size: 13px !important;
+  font-weight: bold;
+  color: #000 !important;
+}
+
+.summary-block p {
+  font-size: 13px;
+  font-weight: bold;
+  /* color: #fff !important; */
+}
+
+.summary-block h3 {
+  font-size: 3em !important;
+  /* color: #fff !important; */
+}
+
+.cnx-banner img {
+    background-size: cover;
+    height: 100px;
+    width: 100%;
+    padding: 0 0 0 0;
+}
+
+.color-line {
+  background-image: linear-gradient(to right, #263b6b, #263b6b 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
+  background-size: 100% 6px;
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  height: 6px;
+}
+
+thead.thead-md th,
+thead.thead-md span {
+  font-size: 14px !important;
+}
+
+.summary-block .card-footer a.btn {
+  font-size: 23px !important;
+  font-weight: bold !important;
+  /* padding: 5px 20px !important; */
+  padding : 0px 20px;
+  margin: 0px;
+}
+
+.summary-block .card-footer h4 {
+  margin-top: 4px;
+}
+
+.mde-popover-content .mat-nav-list .mat-list-item {
+  height: 25px !important;
+}
+
+.font-sm {
+  font-size: 1em !important;
+}
+
+.summary-block .card-header h4 {
+  text-align: left;
+}
+
+.summary-block .card-header + .card-footer {
+  margin-top : 7px !important;
+}
+
+/* .summary-block .card-footer a.btn {
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 5px 15px;
+} */
+
+.summary-block .card-footer h4 {
+  margin-top: 5px;
+}
+
+.navbar .navbar-wrapper {
+  margin-top: -50px !important;
+}
+
+.main-panel .main-content {
+  margin-top: 45px !important;
+}
+
+.hidden {
+  display : none;
+}
+/* .sidebar-wrapper > ul.nav > .nav-item:last-child {
+  position: absolute;
+  bottom : 0px;
+  width: 100%;
+  font-weight: bold;
+} */
+
+span.text-details {
+  display: inline-block;
+  color: #00bcd4 !important;
+  margin-left: 1em;
+  font-weight: bold;
+}
+
+.workstation-menu {
+  max-height: 26em !important;
+  overflow: auto !important;
+}
+
+.custom-full-dialog .mat-dialog-container {
+  padding: 0px;
+}
+
+.custom-new-workstation .mat-dialog-container {
+  height: 720px;
+  width : 1200px;
+  overflow-y: hidden;
+}
+
+.mat-tooltip  {
+  white-space: pre-line;
+  max-width: unset !important;
+}
+
+.custom-label .mat-checkbox-label {
+  color: black;
+}

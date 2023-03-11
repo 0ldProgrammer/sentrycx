@@ -1,0 +1,53 @@
+.tooltip-css {
+  background-color: rgb(255, 128, 128);
+  color: red;
+}
+
+.table-responsive {
+  min-height: 14em;
+  white-space: nowrap;
+}
+
+.btn-fontsize {
+    color: #FFF !important;
+    padding: 0.15em 0.5em;
+}
+
+.span-fontsize {
+  /* font-weight: bold !important; */
+  font-size: 17px;
+}
+
+.card {
+  margin-bottom: 0px;;
+}
+
+
+th:nth-child(1) {
+    position:sticky;
+    left:0px;
+    z-index: 1;
+    box-shadow: inset -1px 0px 0px 0px rgba(88, 87, 87, 0.75);
+  }
+  
+  td:nth-child(1) {
+    position:sticky;
+    left:0px;
+    box-shadow: inset -1px 0px 0px 0px rgba(88, 87, 87, 0.75);
+  }
+  
+  tr:nth-child(odd) > td {
+    background-color: #ededed;
+  }
+  tr:nth-child(even) > td {
+    background-color: #FFFFFF;
+  }
+  tr:nth-child(odd) > th {
+    background-color: #FFFFFF;
+  }
+
+  .my-tooltip {
+    white-space: pre-line;
+  }
+
+

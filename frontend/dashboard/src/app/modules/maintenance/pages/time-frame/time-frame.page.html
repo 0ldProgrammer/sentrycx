@@ -1,0 +1,173 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">event_note</i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="col-lg-3 float-right">
+              <form class="navbar-form">
+                <span class="bmd-form-group">
+                  <div class="input-group no-border">
+                    <input autocomplete="off" (keydown.enter)="searchValue()" (keyup)="searchEmptyValue()" type="text" [(ngModel)]="search_value"
+                      [formControl]="filter" class="form-control" placeholder="Search...">
+                    <button mat-raised-button (click)="onSearchIcon()"
+                      class="btn btn-white btn-round btn-just-icon">
+                      <i class="material-icons">search</i>
+                      <div class="ripple-container"></div>
+                    </button>
+                    <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                      aria-label="Clear" (click)="emptySearch()">
+                      <mat-icon>close</mat-icon>
+                    </button> 
+                  </div>
+                </span>
+              </form>
+            </div>
+            <div class="table-responsive">
+              <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+              <table class="table table-striped table-hover">
+                <thead class="text-primary">
+                  <tr>
+                    <th>#</th>
+                    <th class="text-left">Account</th>
+                    <th class="text-center">Ping</th>
+                    <th class="text-center">Trace</th>
+                    <th class="text-center">MTR</th>
+                    <th class="text-center">Speedtest</th>
+                    <th class="text-center">MOS</th>
+                    <th class="text-left">Start Date</th>
+                    <th class="text-left">End Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of timeFramesList;  let i = index;">
+                    <td>{{ i + paginate.from }}</td>
+                    <td class="text-left">{{ data.account }}</td>
+                    <td class="text-center" [matTooltip]="data.data_to_track.includes('ping') ? 'Included' : 'Excluded' " 
+                      matTooltipPosition="before">
+                      <i class="material-icons text-success" *ngIf="data.data_to_track.includes('ping')" text-danger>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="!data.data_to_track.includes('ping')" text-success>block</i>
+                      
+                    </td>
+                    <td class="text-center" [matTooltip]="data.data_to_track.includes('trace') ? 'Included' : 'Excluded' " 
+                      matTooltipPosition="before"> 
+                      <i class="material-icons text-success" *ngIf="data.data_to_track.includes('trace')" text-danger>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="!data.data_to_track.includes('trace')" text-success>block</i>
+                    </td>
+                    <td class="text-center" [matTooltip]="data.data_to_track.includes('mtr') ? 'Included' : 'Excluded' " 
+                      matTooltipPosition="before"> 
+                      <i class="material-icons text-success" *ngIf="data.data_to_track.includes('mtr')" text-danger>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="!data.data_to_track.includes('mtr')" text-success>block</i>
+                    </td>
+                    <td class="text-center" [matTooltip]="data.data_to_track.includes('speedtest') ? 'Included' : 'Excluded' " 
+                      matTooltipPosition="before"> 
+                      <i class="material-icons text-success" *ngIf="data.data_to_track.includes('speedtest')" text-danger>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="!data.data_to_track.includes('speedtest')" text-success>block</i>
+                    </td>
+                    <td class="text-center" [matTooltip]="data.data_to_track.includes('mos') ? 'Included' : 'Excluded' " 
+                      matTooltipPosition="before"> 
+                      <i class="material-icons text-success" *ngIf="data.data_to_track.includes('mos')" text-danger>check_circle</i>
+                      <i class="material-icons text-danger" *ngIf="!data.data_to_track.includes('mos')" text-success>block</i>
+                    </td>
+                    <td class="text-left">{{ data.start_date | maintenanceTimezone }}</td>
+                    <td class="text-left">{{ data.end_date | maintenanceTimezone }}</td>
+                    <td class="td-actions text-center">
+                      <button mat-raised-button type="button" class="btn btn-link" data-toggle="modal" data-target="#addTimeFrameModal" (click)="showTimeFrameForm(true, data)"
+                      matTooltip="Edit Timeframe" [matTooltipShowDelay]=1000>
+                      <i class="material-icons">edit</i>
+                      </button>
+                      <button mat-raised-button type="button" class="btn btn-link" (click)="confirmDelete(data.id)"
+                        matTooltip="Delete Application" [matTooltipShowDelay]=1000>
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator [length]="paginate.total" [pageSize]="paginate.perPage" (page)="pageChanged($event)">
+              </mat-paginator>
+            </div>
+          </div>
+          <!-- addTimeFrame button -->
+          <div id="addTimeFrameButton">
+            <button mat-mini-fab color="primary" matTooltip="Add Time Frame" [matTooltipShowDelay]=1000
+              data-toggle="modal" data-target="#addTimeFrameModal" (click)="showTimeFrameForm(false, null)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <!-- addTimeFrameModal modal -->
+          <div class="modal fade" id="addTimeFrameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-notice">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="card-icon">
+                    <i class="material-icons">code</i>
+                  </div>
+                  <h4 class="modal-title">{{operation}} Time Frame</h4>
+                  <button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true" #closebutton>
+                    <i class="material-icons">close</i>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form [formGroup]="AddTimeFrameForm">
+                    <div class="form-group">
+                      <mat-form-field>
+                        <mat-select placeholder="Account" formControlName="account" name="account">
+                          <mat-option *ngFor="let account of accounts" [value]="account.name">
+                          {{account.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <small *ngIf="isInvalid('account')" class="text-danger">Account is required</small>
+                    </div>
+                    <div class="form-group">
+                      <mat-form-field>
+                        <mat-label>Data to Track</mat-label>
+                        <mat-select multiple formControlName="data_to_track" (selectionChange)="onDataToTrackChange($event)" >
+                          <mat-option *ngFor="let data of DATA_TO_TRACK" [value]="data.id">{{data.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <small *ngIf="isInvalid('data_to_track')" class="text-danger">Data to Track is required</small>
+                    </div>
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Select Date Range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                          <input matStartDate formControlName="start_date" placeholder="Start Date" name="start_date" (click)="picker.open()">
+                          <input matEndDate formControlName="end_date" placeholder="End Date" name="start_date" (click)="picker.open()">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                      </mat-form-field>
+                      <small *ngIf="isInvalid('start_date')" class="text-danger">Start Date is required </small>
+                      <small *ngIf="isInvalid('end_date')" class="text-danger">End Date is required</small>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <button mat-raised-button type="button" [ngClass]="{ 'disabled' : AddTimeFrameForm.invalid  }"  class="btn btn-success btn-sm btn-link" (click)="onSubmitTimeFrame($event)" data-dismiss="modal"
+                  >
+                    Submit
+                    <div class="ripple-container"></div>
+                  </button>
+                  <button mat-raised-button type="button" #closebutton class="btn btn-danger btn-sm btn-link" data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end addTimeFrameModal modal -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,24 @@
+<mat-form-field class="location-chip-list">
+    <mat-label>{{ title }}</mat-label>
+    <mat-chip-list #reportTypeList aria-label="Autocomplete">
+
+      <mat-chip *ngFor="let selectedOption of selectedOptions" [value]="selectedOption.id">
+        {{ selectedOption.type }}
+        <mat-icon matChipRemove (click)="remove(selectedOption)">cancel</mat-icon>
+      </mat-chip>
+
+      <input [matChipInputFor]="reportTypeList" 
+        [formControl]="autocompleteCtrl" 
+        [matAutocomplete]="reportType"
+        [matChipInputFor]="reportTypeList"  
+        (matChipInputTokenEnd)="add($event)"
+        matInput
+        #reportTypeInput
+      />
+      </mat-chip-list>
+      <mat-autocomplete #reportType="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let site of filteredOptions | async" [value]="site">
+          {{ site.type }}
+        </mat-option>
+      </mat-autocomplete>
+  </mat-form-field>

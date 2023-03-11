@@ -1,0 +1,90 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                      <i class="material-icons">assignment</i>
+                    </div>
+                  </div>
+                    <div class="card-body">
+                      <div class="col-lg-3 float-right">
+                        <form class="navbar-form">
+                            <span class="bmd-form-group">
+                                <div class="input-group no-border">
+                                  
+                                    <input autocomplete="off" (keydown.enter)="searchValue()" (keyup)="searchEmptyValue()" type="text" [(ngModel)]="search_value"
+                                        [formControl]="searchBar" class="form-control" placeholder="Search...">
+                                    <button mat-raised-button (click)="onSearchIcon()"
+                                        class="btn btn-white btn-round btn-just-icon">
+                                        <i class="material-icons">search</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                    <button mat-button *ngIf="search_value" matSuffix mat-icon-button
+                                        aria-label="Clear" (click)="emptySearch()">
+                                        <mat-icon>close</mat-icon>
+                                    </button> 
+            
+                                    <button *ngIf="hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm"  matBadgeColor="accent" matBadge="!" data-toggle="modal" data-target="#connectedAgentsFilterModal" >
+                                      <i class="material-icons">search</i> 
+                                    </button>
+                          
+                                    <button *ngIf="!hasFiltered" mat-raised-button class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#connectedAgentsFilterModal"   >
+                                      <i class="material-icons">search</i> 
+                                    </button>
+                                </div>
+                            </span>
+                        </form>
+                    </div>
+                        <div class="table-responsive">
+                             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                             <table class="table table-striped table-hover">
+                                  <thead class="text-primary">
+                                      <tr>
+                                        <th *ngFor="let header of auditLogsHeader">
+                                          <sort-header [ngClass]="header.class"
+                                            [data-field]='header.field'
+                                            [data-name]='header.name'
+                                          [data-selected]="sortedField == header.field"
+                                          (onSort)="sortHeader($event)"
+                                          ></sort-header>
+                                        </th>                                    
+                                      </tr>
+                                  </thead>
+                                <tbody>
+                                    <tr *ngFor="let logs of auditLogs ">
+                                          <td class="text-left">{{ logs.user }}</td>
+                                          <td class="text-left">{{ logs.event }}</td>
+                                          <td class="text-left">{{ logs.workstation_number }}</td>
+                                          <td class="text-left">{{ logs.affected_agent }}</td>
+                                          <td class="text-left">{{ logs.worker_id }}</td>
+                                          <td class="text-left">{{ logs.date_triggered | timezone }}</td>
+                                    </tr>
+                                </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div><!--/.row-->
+        <mat-paginator (page)="updateData($event)"
+          [length]="paginate.total"
+          [pageSize]="paginate.perPage"
+          [pageIndex]="paginate.currentPage - 1"
+          [pageSizeOptions]="[10, 20, 30, 40, 50]">
+      </mat-paginator>
+
+        <div class="modal fade" id="connectedAgentsFilterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <popup-filter [data-filters]="filterOptions['filters']"
+            [data-fields]="filterOptions['fields']"
+            (onSearch)="search($event)"
+            (onReset)="reset()">
+          </popup-filter>
+    </div>
+    <!--/.modal-->
+    </div>
+</div>
+

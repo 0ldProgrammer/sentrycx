@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-6" style="min-height: 60vh;">
+        <div class="speedtest-side-info col-md-12">
+            <form class="row" method="#" action="#">
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Agent Name" [attr.value]="agent" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Download Speed" [attr.value]="downloadSpeed" disabled>
+                </mat-form-field>       
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6" style="min-height: 60vh;">
+        <div class="speedtest-side-info col-md-12">
+            <form class="row" method="#" action="#"> 
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Upload Speed" [attr.value]="uploadSpeed" disabled>
+                </mat-form-field>
+        
+                <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="ISP" [attr.value]="isp" disabled>
+                </mat-form-field>
+                
+            </form>
+        </div>
+    </div>
+</div>

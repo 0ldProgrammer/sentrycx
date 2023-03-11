@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Modules\HistoricalRecords\Controllers;
+
+use App\Modules\HistoricalRecords\Services\SecureCXRecordsService;
+use App\Modules\Applications\Services\ApplicationService;
+use Illuminate\Container\Container;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Laravel\Lumen\Routing\Controller as BaseController;
+
+class SecureCXSaveController extends BaseController {
+
+    /** @var SecureCXRecordsService $var description */
+    protected $service;
+
+    protected $applicationService;
+
+    /**
+     *
+     * Constructor dependencies
+     *
+     * @param Type $var Description
+     * @return type
+     * @throws conditon
+     **/
+    public function __construct(Container $container){
+        $this -> service = $container -> get('SecureCXRecordsService');
+        $this -> applicationService = $container -> get('ApplicationService');
+    }
+
+    /**
+     *
+     * Handles fetching of SecureCX
+     *
+     * @param Type $var Description
+     * @return type
+     * @throws conditon
+     **/
+    public function __invoke(Request $request){
+
+        $current_date = date('Y-m-d H:i:s');
+        $new_securecx_logs = array();
+        $new_smart_monitoring_logs = array();
+        $worker_id = $request -> route('worker_id');
+        $data = $request->input();
+        
+        if ($data['speedtest_logs']) {
+            $speedtest_logs = $data['speedtest_logs'];
+            $speedtest_logs['worker_id'] = $worker_id;
+        }
+
+        if ($data['mos_logs']) {
+            $mos_logs = $data['mos_logs'];
+            $mos_logs['worker_id'] = $worker_id;
+        }
+        
+        if ($data['securecx_logs']) {
+            $securecx_logs = $data['securecx_logs'];
+
+            foreach ($securecx_logs as $value){
+                $value['worker_id'] = $worker_id;
+                $value['created_at'] = $current_date;
+                $value['updated_at'] = $current_date;
+                array_push($new_securecx_logs, $value);
+            }
+        }
+
+        if (isset($data['smart_monitoring_logs'])) {
+            $smart_monitoring_logs = $data['smart_monitoring_logs'];
+
+            
+            foreach ($smart_monitoring_logs as $value){
+                $value['worker_id'] = $worker_id;
+                $value['created_at'] = $current_date;
+                $value['updated_at'] = $current_date;
+                array_push($new_smart_monitoring_logs, $value);
+            }
+        }
+    
+        $this -> service -> log( $new_securecx_logs );
+        $this -> applicationService -> logSmartMonitoring($new_smart_monitoring_logs);
+        $this -> applicationService -> logSpeedtest($speedtest_logs);
+        $this -> applicationService -> logMeanOpinionScore( $mos_logs );
+
+        return ['status' => 'OK', 'data' => $this -> service -> getModel() ];
+    }
+}
